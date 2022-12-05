@@ -3,6 +3,7 @@ package org.itstack.navice.chat.ui.view.chat;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -35,9 +36,16 @@ public abstract class ChatInit extends UIObject {
 //    public Button bar_set;
 //
 //    public Button bar_portrait;
+    public String userId;       // 用户ID
+    public String userNickName; // 用户昵称
+    public String userHead;     // 用户头像
 
+    public IChatEvent chatEvent;
 
-    public ChatInit(){
+    public TextArea txt_input;  // 输入框
+
+    public ChatInit(IChatEvent chatEvent){
+        this.chatEvent = chatEvent;
         try {
             root = FXMLLoader.load(this.getClass().getResource(RESOURCE_NAME));
         } catch (IOException e) {
@@ -58,5 +66,6 @@ public abstract class ChatInit extends UIObject {
         groupBarChat = getElement("group_bar_chat", Pane.class);
         barFriend = getElement("bar_friend", Button.class);
         groupBarFriend = getElement("group_bar_friend", Pane.class);
+        txt_input = getElement("txt_input", TextArea.class);
     }
 }

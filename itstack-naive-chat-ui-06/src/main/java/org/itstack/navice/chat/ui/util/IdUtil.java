@@ -18,4 +18,11 @@ public class IdUtil {
     public static String createMsgDataId(String id) {
         return "createMsgDataId_" + id;
     }
+
+    public static String createInfoBoxListId(String id) {
+        return "createInfoBoxListId_" + id;
+    }
+    public static String createFriendGroupId(String id) {
+        return "createFriendGroupId_" + id;
+    }
 }

@@ -4,41 +4,46 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import org.itstack.navice.chat.ui.util.DateUtil;
 import org.itstack.navice.chat.ui.util.IdUtil;
 import org.itstack.navice.chat.ui.view.chat.data.RemindCount;
 import org.itstack.navice.chat.ui.view.chat.data.TalkBoxData;
+import org.itstack.navice.chat.ui.view.chat.data.TalkData;
+
 
 import java.util.Date;
 
 /**
- * TODO
- * 对话框体中的元素类
- * 包含对话面板，头像区域，昵称区域，信息简述，信息时间，消息提醒，删除对话
- * @author hourui
- * @version 1.0
- * @Description
- * @date 2022/11/29 14:10
+ * 博  客：http://bugstack.cn
+ * 公众号：bugstack虫洞栈 | 沉淀、分享、成长，让自己和他人都能有所收获！
+ * create by 小傅哥 on @2019
+ * <p>
+ * 对话框元素，好友对话列表框元素
  */
 public class ElementTalk {
-    private Pane pane;       // 对话面板 (与好友对话、与群组对话)
-    private Label head;      // 头像区域
+
+    private Pane pane;
+
+    private Label head;
     private Label nikeName;  // 昵称区域
     private Label msgSketch; // 信息简述
-    private Label msgDate;   // 信息时间
+    private Label msgData;   // 信息时间
     private Label msgRemind; // 消息提醒
     private Button delete;   // 删除对话框按钮
 
-    public ElementTalk(String talkId, Integer talkType, String talkName, String talkHead, String talkSketch, Date talkDate){
-        pane = new Pane(); //Pane是Node类的子类
+    private ListView<Pane> infoBoxList; // 初始化填充消息对话框
+
+    public ElementTalk(String talkId, Integer talkType, String talkName, String talkHead, String talkSketch, Date talkDate) {
+        pane = new Pane();
         pane.setId(IdUtil.createTalkPaneId(talkId));
-        pane.setUserData(new TalkBoxData(talkId, talkType, talkName, talkHead)); //往Node的Map对象中添加一个以USER_DATA_KEY为键，TalkBoxData为值的键值对
+        pane.setUserData(new TalkBoxData(talkId, talkType, talkName, talkHead));
         pane.setPrefSize(270, 80);
-        pane.getStyleClass().add("talkElement"); //给面板增加类选择器
+        pane.getStyleClass().add("talkElement");
         ObservableList<Node> children = pane.getChildren();
 
-        //头像区域
+        // 头像区域
         head = new Label();
         head.setPrefSize(50, 50);
         head.setLayoutX(15);
@@ -47,7 +52,7 @@ public class ElementTalk {
         head.setStyle(String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", talkHead));
         children.add(head);
 
-        //昵称区域
+        // 昵称区域
         nikeName = new Label();
         nikeName.setPrefSize(140, 25);
         nikeName.setLayoutX(80);
@@ -56,7 +61,7 @@ public class ElementTalk {
         nikeName.getStyleClass().add("element_nikeName");
         children.add(nikeName);
 
-        //信息简述
+        // 信息简述
         msgSketch = new Label();
         msgSketch.setId(IdUtil.createMsgSketchId(talkId));
         msgSketch.setPrefSize(200, 25);
@@ -65,25 +70,25 @@ public class ElementTalk {
         msgSketch.getStyleClass().add("element_msgSketch");
         children.add(msgSketch);
 
-        //信息时间
-        msgDate = new Label();
-        msgDate.setId(IdUtil.createMsgDataId(talkId));
-        msgDate.setPrefSize(60, 25);
-        msgDate.setLayoutX(220);
-        msgDate.setLayoutY(15);
-        msgDate.getStyleClass().add("element_msgData");
-        children.add(msgDate);
-        //给信息简述和信息时间中增添内容
+        // 信息时间
+        msgData = new Label();
+        msgData.setId(IdUtil.createMsgDataId(talkId));
+        msgData.setPrefSize(60, 25);
+        msgData.setLayoutX(220);
+        msgData.setLayoutY(15);
+        msgData.getStyleClass().add("element_msgData");
+        children.add(msgData);
+        // 填充；信息简述 & 信息时间
         fillMsgSketch(talkSketch, talkDate);
 
-        //设置消息提醒
+        // 消息提醒
         msgRemind = new Label();
         msgRemind.setPrefSize(15, 15);
         msgRemind.setLayoutX(60);
         msgRemind.setLayoutY(5);
         msgRemind.setUserData(new RemindCount());
         msgRemind.setText("");
-        msgRemind.setVisible(false); //一开始消息提醒是不展示的
+        msgRemind.setVisible(false);
         msgRemind.getStyleClass().add("element_msgRemind");
         children.add(msgRemind);
 
@@ -95,28 +100,43 @@ public class ElementTalk {
         delete.setLayoutX(-8);
         delete.getStyleClass().add("element_delete");
         children.add(delete);
+
+        // 消息框[初始化，未装载]，承载对话信息内容，点击按钮时候填充
+        infoBoxList = new ListView<>();
+        infoBoxList.setId(IdUtil.createInfoBoxListId(talkId));
+        infoBoxList.setUserData(new TalkData(talkName, talkHead));
+        infoBoxList.setPrefSize(850, 560);
+        infoBoxList.getStyleClass().add("infoBoxStyle");
     }
-    public void fillMsgSketch(String talkSketch, Date talkDate){
-        if(talkSketch != null){
-            if(talkSketch.length() > 30){
-                talkSketch = talkSketch.substring(0, 30);
-            }
-            msgSketch.setText(talkSketch);
-        }
-        if (talkDate == null){
-            talkDate = new Date();
-        }
-        String talkFormatDate = DateUtil.formatDate(talkDate);
-        msgDate.setText(talkFormatDate);
-    }
-    public Pane getPane(){
+
+    public Pane getPane() {
         return pane;
     }
-    public Button getDelete(){
+
+    public ListView<Pane> getInfoBoxList() {
+        return infoBoxList;
+    }
+
+    public Button getDelete() {
         return delete;
+    }
+
+    public void fillMsgSketch(String talkSketch, Date talkDate) {
+        if (null != talkSketch) {
+            if (talkSketch.length() > 30) talkSketch = talkSketch.substring(0, 30);
+            msgSketch.setText(talkSketch);
+        }
+        if (null == talkDate) talkDate = new Date();
+        // 格式化信息
+        String talkSimpleDate = DateUtil.formatDate(talkDate);
+        msgData.setText(talkSimpleDate);
     }
 
     public void clearMsgSketch() {
         msgSketch.setText("");
+    }
+
+    public Label msgRemind() {
+        return msgRemind;
     }
 }
