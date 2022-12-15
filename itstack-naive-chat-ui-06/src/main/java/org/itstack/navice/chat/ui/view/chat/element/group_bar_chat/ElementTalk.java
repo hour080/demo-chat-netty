@@ -16,11 +16,10 @@ import org.itstack.navice.chat.ui.view.chat.data.TalkData;
 import java.util.Date;
 
 /**
- * 博  客：http://bugstack.cn
- * 公众号：bugstack虫洞栈 | 沉淀、分享、成长，让自己和他人都能有所收获！
- * create by 小傅哥 on @2019
- * <p>
  * 对话框元素，好友对话列表框元素
+ * ElementTalk的pane中保存new TalkBoxData(talkId, talkType, talkName, talkHead)
+ * //对话框id 、对话框类型(好友 0、群组 1)、对话框名称、对话框头像
+ * ElementTalk中的infoBoxList也就是对话框对应的聊天消息列表中包含talkName, talkHead
  */
 public class ElementTalk {
 
