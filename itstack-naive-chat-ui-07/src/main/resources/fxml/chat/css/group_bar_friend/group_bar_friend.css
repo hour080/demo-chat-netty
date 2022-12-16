@@ -1,0 +1,8 @@
+@import "chat_operation.css";
+@import "chat_search.css";
+@import "chat_friend.css";
+
+#group_bar_friend{
+   -fx-background-color:yellow;
+   -fx-border-width:0;
+}

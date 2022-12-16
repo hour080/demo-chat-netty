@@ -1,0 +1,109 @@
+/* 控制栏 */
+/*
+-fx-background-radius: 4px 0px 0px 4px
+按照顺时针顺序，左上，右上，右下，左下
+也就是左侧有两个圆角，右侧是两个直角
+ */
+#bar{
+   -fx-background-color:#28282c;
+   -fx-background-radius: 4px 0px 0px 4px;
+}
+/*
+设置头像部分的格式
+ */
+#bar_portrait,#bar_portrait:hover,#bar_portrait:pressed{
+    -fx-background-radius: 2px;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 50px 50px;
+    -fx-background-color: white;
+    -fx-background-image: url("/fxml/chat/img/head/01_50.png");
+    -fx-cursor: hand;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+    -fx-border-color: white;
+}
+/*
+设置聊天部分的格式
+ */
+#bar_chat{
+    -fx-background-radius: 2px;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 30px 30px;
+    -fx-background-color: transparent;
+    -fx-background-image: url("/fxml/chat/img/system/chat_2.png");
+    -fx-cursor: hand;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+    -fx-border-color: transparent;
+}
+/*
+设置聊天部分的格式
+ */
+#bar_friend{
+    -fx-background-radius: 2px;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 30px 30px;
+    -fx-background-color: transparent;
+    -fx-background-image: url("/fxml/chat/img/system/friend_0.png");
+    -fx-cursor: hand;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+    -fx-border-color: transparent;
+}
+
+#bar_friend:hover{
+    -fx-background-image: url("/fxml/chat/img/system/friend_1.png");
+}
+
+#bar_friend:pressed{
+    -fx-background-image: url("/fxml/chat/img/system/friend_2.png");
+}
+/*
+设置收藏的格式
+ */
+#bar_location{
+        -fx-background-radius: 2px;
+        -fx-background-position: center center;
+        -fx-background-repeat: no-repeat;
+        -fx-background-size: 30px 30px;
+        -fx-background-color: transparent;
+        -fx-background-image: url("/fxml/chat/img/system/location_0.png");
+        -fx-cursor: hand;
+        -fx-border-width: 1px;
+        -fx-border-radius: 2px;
+        -fx-border-color: transparent;
+}
+
+#bar_location:hover{
+    -fx-background-image: url("/fxml/chat/img/system/location_1.png");
+}
+
+#bar_location:pressed{
+    -fx-background-image: url("/fxml/chat/img/system/location_2.png");
+}
+/*
+设置侧边栏设置部分的格式
+ */
+#bar_set{
+        -fx-background-radius: 2px;
+        -fx-background-position: center center;
+        -fx-background-repeat: no-repeat;
+        -fx-background-size: 20px 20px;
+        -fx-background-color: transparent;
+        -fx-background-image: url("/fxml/chat/img/system/set_0.png");
+        -fx-cursor: hand;
+        -fx-border-width: 1px;
+        -fx-border-radius: 2px;
+        -fx-border-color: transparent;
+}
+
+#bar_set:hover{
+    -fx-background-image: url("/fxml/chat/img/system/set_1.png");
+}
+
+#bar_set:pressed{
+    -fx-background-image: url("/fxml/chat/img/system/set_2.png");
+}

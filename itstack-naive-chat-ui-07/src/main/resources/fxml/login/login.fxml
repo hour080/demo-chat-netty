@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<!--这是一个整体的面板，初步设定了面板的宽高(prefWidth,prefHeight)、引入的 css 样式等
+其中css样式是通过id和styleClass来指定.其中id是#选择器, styleClass是.选择器
+-->
+<Pane id="login" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefWidth="540" prefHeight="415" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <!--接下来在 children 孩子元素集合里添加各种窗体元素-->
+        <Pane id="operation" prefWidth="540" prefHeight="158">
+            <!--定义一个 Pane，并设置宽高，之后在整个面板里中添加 logo、最小化、关闭操作-->
+            <children>
+                <Label id="login_logo" styleClass="logo" layoutX="10" layoutY="5" prefWidth="200" prefHeight="15" text="防微信客户端" style="-fx-text-fill:#666666;"/>
+                <Button id="login_min" styleClass="min" layoutX="454" prefWidth="43" prefHeight="32"/>
+                <Button id="login_close" styleClass="close" layoutX="497" prefWidth="43" prefHeight="32"/>
+            </children>
+        </Pane>
+        <!--设置头像的宽高，X轴和Y轴位置-->
+        <Pane id="headImg" layoutX="80" layoutY="200" prefWidth="100" prefHeight="100"/>
+        <!--TextField 是一个单行明文内容输入区域，在这里不仅设置了宽高，还设置了相对位置；layoutX、layoutY, 还设置了提示文字-->
+        <TextField id="userId" layoutX="200" layoutY="200" prefWidth="250" prefHeight="45" promptText="账号">
+            <padding>
+                <!--设置输入框内，文字输入区域距离左面的空出位置-->
+                <Insets left="10"/>
+            </padding>
+        </TextField>
+        <!--PasswordField 是一个单行密码内容输入区域，同样设置了宽高，以及提示文字-->
+        <PasswordField id="userPassword" layoutX="200" layoutY="255" prefWidth="250" prefHeight="45" promptText="密码">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </PasswordField>
+        <Button id="login_button" styleClass="login_button" layoutX="200" layoutY="345" prefWidth="250" prefHeight="45" text="登 陆"/>
+        <!--标签-->
+        <Label id="slogan" layoutX="5" layoutY="398" prefWidth="400" prefHeight="15"
+               text="v1.0 wechat | https://bugstack.cn">
+            <font>
+                <Font size="12"/>
+            </font>
+        </Label>
+    </children>
+</Pane>
