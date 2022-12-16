@@ -63,7 +63,6 @@
                     <children>
                         <Pane id="info_pane" prefWidth="852" prefHeight="44">
                             <children>
-                                <!--更多图标...-->
                                 <Label id="info_more" layoutX="800" prefWidth="43" prefHeight="43"/>
                                 <Label id="info_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40"
                                        text="小傅哥 | bugstack.cn"/>
@@ -81,7 +80,6 @@
                 <!-- 文本栏 -->
                 <Pane id="txt" layoutX="314" layoutY="684" prefWidth="852" prefHeight="90">
                     <children>
-                        <!--wrapText设置文本可换行-->
                         <TextArea id="txt_input" styleClass="txt_input_style" layoutX="20" prefWidth="813" prefHeight="90"
                                   wrapText="true"/>
                     </children>
@@ -95,11 +93,11 @@
             </children>
         </Pane>
 
-        <!-- 组；group_bar_friend 总宽度1166，包含操作栏长度的852和搜索栏长度的314  852 + 314 = 1166-->
+        <!-- 组；group_bar_friend -->
         <Pane visible="false" id="group_bar_friend" layoutX="76" layoutY="1" prefWidth="1166" prefHeight="818">
             <children>
-                <!--操作栏，最小化，关闭-->
-                <Pane id="opeartion" layoutX="314" prefWidth="852" prefHeight="32">
+                <!-- 操作栏；最小化、关闭 -->
+                <Pane id="operation" layoutX="314" prefWidth="852" prefHeight="32">
                     <children>
                         <Button id="group_bar_friend_min" styleClass="min" layoutX="767" prefWidth="42" prefHeight="32"/>
                         <Button id="group_bar_friend_close" styleClass="close" layoutX="810" prefWidth="42" prefHeight="32"/>
@@ -110,7 +108,6 @@
                     <children>
                         <TextField styleClass="searchInput" layoutX="20" layoutY="30" prefHeight="30" prefWidth="240" promptText="搜索">
                             <padding>
-                                <!--输入的内容距离左侧偏移30-->
                                 <Insets left="30"/>
                             </padding>
                         </TextField>
@@ -123,9 +120,21 @@
                         <ListView id="friendList" prefHeight="738" prefWidth="314" styleClass="friendListStyle"/>
                     </children>
                 </Pane>
+                <!-- 内容栏；新的朋友、公众号、群组、好友，明细信息(发送消息按钮) -->
+                <Pane id="content" layoutX="314" layoutY="32" prefWidth="852" prefHeight="606">
+                    <children>
+                        <Pane id="content_pane" prefWidth="852" prefHeight="44">
+                            <children>
+                                <Label id="content_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40"
+                                       text="加载..."/>
+                            </children>
+                        </Pane>
+                        <Pane id="content_pane_box" layoutX="1" layoutY="45" prefWidth="850" prefHeight="560" style="-fx-background-color:transparent;-fx-border-width:0;"/>
+                    </children>
+                </Pane>
             </children>
         </Pane>
-
+        
     </children>
 
 </Pane>

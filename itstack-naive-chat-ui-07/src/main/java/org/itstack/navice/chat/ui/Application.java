@@ -57,11 +57,10 @@ public class Application extends javafx.application.Application {
         chat.addTalkMsgGroupLeft("5307397", "1000003", "铁锤", "03_50", "奈河桥边的姑娘", new Date(), true, false, true);
         chat.addTalkMsgGroupLeft("5307397", "1000004", "哈尼克兔", "04_50", "等我回头看", new Date(), true, false, true);
 
-        // 好友
+        // 好友 会根据userId来找到是否存在talkId,如果talkId存在
         chat.addFriendUser(false, "1000004", "哈尼克兔", "04_50");
-        chat.addFriendUser(false, "1000001", "拎包冲", "02_50");
-        chat.addFriendUser(false, "1000003", "铁锤", "03_50");
-        chat.addFriendUser(true, "1000002", "小傅哥", "01_50");
+        chat.addFriendUser(false, "1000002", "铁锤", "03_50");
+        chat.addFriendUser(true, "1000003", "小傅哥", "01_50");
     }
 
     public static void main(String[] args) {

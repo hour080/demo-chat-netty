@@ -1,8 +1,11 @@
 package org.itstack.navice.chat.ui.view.chat;
 
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import org.itstack.navice.chat.ui.view.chat.data.RemindCount;
 import org.itstack.navice.chat.ui.view.chat.data.TalkBoxData;
@@ -29,13 +32,13 @@ public class ChatView {
         this.chatEvent = chatEvent;
         ListView friendList = chatInit.getElement("friendList", ListView.class);
         items = friendList.getItems();
-        //1. 好友列表添加工具方法‘新的朋友’
+        //1. 好友列表添加工具方法‘新的朋友’, 点击新的哦嗯有会填充右边展示面板，并且回车会默认添加新的好友
         initAddFriendLuck();
-        //2. 好友列表添加‘公众号’
+        //2. 好友列表添加‘公众号’, 点击公众号会填充右边展示面板
         addFriendSubscription();
-        //3. 好友群组框体
+        //3. 好友群组框体，点击某个群组会填充右边展示面板
         addFriendGroupList();
-        //4. 好友框体
+        //4. 好友框体， 点击某个好友会填充右边展示面板
         addFriendUserList();
     }
 
@@ -85,29 +88,82 @@ public class ChatView {
             //因为是 ListView 里嵌套 ListView，鼠标点击不同的框体，都会是选中，不会去掉选中。所以我们需要添加额外的事件来处理。
             chatInit.clearViewListSelectedAll(chatInit.getElement("userListView", ListView.class),
                     chatInit.getElement("groupListView", ListView.class));
+            Pane subPane = element.getSubPane();
+            //将子面板填充到右侧展示面板上
+            setContentPaneBox(subPane, "itstack-naive-chat-ui-chat-friend-subscription", "公众号");
         });
     }
 
     /**
-     * 好友框添加新的好友框体
      * 获取了好友列表friendList，并设置了 新的朋友 添加添加到框体中，
      * 并可以看到我们这里设置了标签 items.add(elementFriendTag.pane())
+     * 首先在面板点击事件中，也就是点击我们的 新的朋友 时候将我们的好友搜索面板 Pane friendLuckPane = element.friendLuckPane()，获取后填充到 ID：content_pane_box 中。
+     * 同时我们填充相应的处理事件清空原有的好友搜索结果
+     * 那么在用户在好友搜索框 回车 后我们通过设定好的事件；friendLuckSearch.setOnKeyPressed，来执行搜索内容的添加
      * @author hourui
      * @date 2022/12/16 09:54
      * @return void
      */
     private void initAddFriendLuck() {
+        //创建一个新的好友的标志
         ElementFriendTag elementFriendTag = new ElementFriendTag("新的朋友");
         items.add(elementFriendTag.getPane());
-        ElementFriendLuck elementFriendLuck = new ElementFriendLuck(); //创建一个新的好友对象
+        //创建一个新的好友对象（包含头像，名称·，右边展现面板，搜索栏，用户栏）
+        ElementFriendLuck elementFriendLuck = new ElementFriendLuck();
         Pane pane = elementFriendLuck.getPane();
         items.add(pane);
         //为好友对象面板设置鼠标点击事件
         pane.setOnMousePressed(event -> {
+            //获得好友栏中的新的朋友对应的右边界面面板friendLuckPane
+            Pane friendLuckPane = elementFriendLuck.getFriendLuckPane();
+            //填充右边界面面板 以及 右边界面面板名称
+            setContentPaneBox(friendLuckPane, "itstack-naive-chat-ui-chat-friend-luck", "新的朋友");
             //因为是 ListView 里嵌套 ListView，鼠标点击不同的框体，都会是选中，不会去掉选中。所以我们需要添加额外的事件来处理。
             chatInit.clearViewListSelectedAll(chatInit.getElement("userListView", ListView.class),
                     chatInit.getElement("groupListView", ListView.class));
+            ListView<Pane> listView = elementFriendLuck.getFriendLuckListView();
+            listView.getItems().clear();
+            System.out.println("添加好友");
         });
+        //搜索栏
+        TextField friendLuckSearch = elementFriendLuck.getFriendLuckSearch();
+
+        //键盘事件；搜索好友  setOnKeyPressed: 按下某个按键时执行函数
+        friendLuckSearch.setOnKeyPressed(event -> {
+            //如果按下回车键
+            if(event.getCode().equals(KeyCode.ENTER)){
+                String text = friendLuckSearch.getText();
+                if(text == null) text = "";
+                if(text.length() > 30) text = text.substring(0, 30);
+                text = text.trim();
+                System.out.println("搜搜好友：" + text);
+                // 搜索清空元素
+                elementFriendLuck.getFriendLuckListView().getItems().clear();
+                elementFriendLuck.getFriendLuckListView().getItems().add(
+                        new ElementFriendLuckUser("1000005", "比丘卡", "05_50", 0)
+                                .getPane());
+                elementFriendLuck.getFriendLuckListView().getItems().add(new ElementFriendLuckUser("1000006", "兰兰", "06_50", 1).getPane());
+                elementFriendLuck.getFriendLuckListView().getItems().add(new ElementFriendLuckUser("1000007", "Alexa", "07_50", 2).getPane());
+            }
+        });
+    }
+    /**
+     * 填充右边展现面板 以及 面板名称
+     * @param node 右侧展现面板
+     * @param id  用户、群组等ID
+     * @param name 右侧展现面板名称
+     * @author hourui
+     * @date 2022/12/16 16:54
+     * @return void
+     */
+    public void setContentPaneBox(Node node, String id, String name) {
+        Pane content_pane_box = chatInit.getElement("content_pane_box", Pane.class);
+        content_pane_box.setUserData(id);
+        content_pane_box.getChildren().clear();
+        content_pane_box.getChildren().add(node);
+        Label content_name = chatInit.getElement("content_name", Label.class);
+        //设定右边展现界面的名称
+        content_name.setText(name);
     }
 
 

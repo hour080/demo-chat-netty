@@ -96,7 +96,7 @@ public class ChatController extends ChatInit implements IChatMethod{
                 //选中ListView中的对应面板Pane元素
                 talkList.getSelectionModel().select(elementTalk.getPane());
             }
-            // 填充对话框消息栏
+            // 填充对话框对应的右边消息界面
             fillInfoBox(elementTalk, talkName);
             return;
         }
@@ -147,7 +147,7 @@ public class ChatController extends ChatInit implements IChatMethod{
     }
 
     /**
-     * 之前只是在好友框中添加了群组列表框体，本方法往群组列表框体中添加具体群组信息
+     * ChatView中的addFriendGroupList在好友框中添加了群组列表框体，本方法往群组列表框体中添加具体群组信息
      * @param groupId 要添加的群组id
      * @param groupName 要添加的群组名称
      * @param groupHead 要添加的群组头像
@@ -166,10 +166,29 @@ public class ChatController extends ChatInit implements IChatMethod{
         //设置群组列表框体和底面面板的高度
         groupListView.setPrefHeight(80 * items.size());
         getElement("friendGroupList", Pane.class).setPrefHeight(80 * items.size());
+        // 群组的右侧展示内容框[初始化，未装载]，承载群组信息内容，点击按钮时候填充
+        Pane detailContent = new Pane();
+        detailContent.setPrefSize(850, 560);
+        detailContent.getStyleClass().add("friendGroupDetailContent");
+        ObservableList<Node> children = detailContent.getChildren();
+        //设置发送消息按钮
+        Button sendMsgButton = new Button();
+        sendMsgButton.setId(groupId);
+        sendMsgButton.getStyleClass().add("friendGroupSendMsgButton");
+        sendMsgButton.setPrefSize(176, 50);
+        sendMsgButton.setLayoutX(337);
+        sendMsgButton.setLayoutY(450);
+        sendMsgButton.setText("发送消息");
+        //为按钮设置点击事件，点击发送消息以后，首先要添加好友到对话框，然后要跳转到聊天页面
+        chatEventDefine.doEventOpenFriendGroupSendMsg(sendMsgButton, groupId, groupName, groupHead);
+        children.add(sendMsgButton);
+        //点击群组列表中的某一个群组，
         //设置了选中清空事件，实际效果就是我们点击整个元素，会清空最外层的列表friendList和用户列表userListView中其他的选中
         groupPane.setOnMousePressed(event -> {
             clearViewListSelectedAll(getElement("friendList", ListView.class), getElement("userListView", ListView.class));
+            chatView.setContentPaneBox(detailContent, groupId, groupName);
         });
+
     }
 
     @Override
@@ -186,9 +205,25 @@ public class ChatController extends ChatInit implements IChatMethod{
         if (selected) {
             userListView.getSelectionModel().select(pane);
         }
+        // 好友，内容框[初始化，未装载]，承载好友信息内容，点击按钮时候填充
+        Pane detailContent = new Pane();
+        detailContent.setPrefSize(850, 560);
+        detailContent.getStyleClass().add("friendUserDetailContent");
+        ObservableList<Node> children = detailContent.getChildren();
+
+        Button sendMsgButton = new Button();
+        sendMsgButton.setId(userId);
+        sendMsgButton.getStyleClass().add("friendUserSendMsgButton");
+        sendMsgButton.setPrefSize(176, 50);
+        sendMsgButton.setLayoutX(337);
+        sendMsgButton.setLayoutY(450);
+        sendMsgButton.setText("发送消息");
+        chatEventDefine.doEventOpenFriendUserSendMsg(sendMsgButton, userId, userNickName, userHead);
+        children.add(sendMsgButton);
         // 设置了选中清空事件，实际效果就是我们点击整个元素，会清空最外层的列表friendList和用户列表userListView中其他的选中
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(getElement("friendList", ListView.class), getElement("groupListView", ListView.class));
+            chatView.setContentPaneBox(detailContent, userId, userNickName);
         });
     }
 

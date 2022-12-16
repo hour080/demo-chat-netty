@@ -2,12 +2,7 @@
 @import "group_bar_chat/group_bar_chat.css";
 @import "group_bar_friend/group_bar_friend.css";
 
-/*
-@import 是引入外部的 css，以更加方便的编写和控制样式文件
- css 中设置了背景色、边框色，以及四个圆角的大小 4p
- */
-
-#chat{
+#Chat{
     -fx-background-radius: 4px;
     -fx-border-width: 1px;
     -fx-border-radius: 4px;

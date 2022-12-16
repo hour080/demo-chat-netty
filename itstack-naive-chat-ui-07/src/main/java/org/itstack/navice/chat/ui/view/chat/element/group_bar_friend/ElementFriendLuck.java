@@ -1,5 +1,4 @@
 package org.itstack.navice.chat.ui.view.chat.element.group_bar_friend;
-
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
