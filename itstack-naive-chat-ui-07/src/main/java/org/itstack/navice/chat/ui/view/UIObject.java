@@ -48,7 +48,7 @@ public abstract class UIObject extends Stage {
         });
         //鼠标拖动事件，这个设置 setX、setY
         root.setOnMouseDragged(event -> {
-            //拖拽前后的鼠标差值(event.getScreenX() - oldScreenX)加上原始窗体坐标值oldStageX
+            //拖拽前后的鼠标差值(event.getScreenX() - oldScreenX)加上原始窗体坐标值oldStageX就是现在窗体的坐标值位置（左上角）
             this.setX(event.getScreenX() - oldScreenX + oldStageX);
             this.setY(event.getScreenY() - oldScreenY + oldStageY);
             System.out.println(event.getScreenX());

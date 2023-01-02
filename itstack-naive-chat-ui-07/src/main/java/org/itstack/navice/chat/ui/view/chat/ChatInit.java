@@ -52,7 +52,7 @@ public abstract class ChatInit extends UIObject {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Scene scene = new Scene(root); //给舞台设置一个场景
+        Scene scene = new Scene(root); //给舞台Stage(UIObject, ChatInit)设置一个场景Scene
         scene.setFill(Color.TRANSPARENT); //设置场景的背景颜色
         setScene(scene);
         initStyle(StageStyle.TRANSPARENT); //设置样式的背景颜色

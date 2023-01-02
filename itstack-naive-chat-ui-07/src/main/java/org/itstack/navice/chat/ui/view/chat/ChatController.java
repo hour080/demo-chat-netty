@@ -14,6 +14,7 @@ import org.itstack.navice.chat.ui.view.chat.data.TalkData;
 import org.itstack.navice.chat.ui.view.chat.element.group_bar_chat.ElementInfoBox;
 import org.itstack.navice.chat.ui.view.chat.element.group_bar_chat.ElementTalk;
 import org.itstack.navice.chat.ui.view.chat.element.group_bar_friend.ElementFriendGroup;
+import org.itstack.navice.chat.ui.view.chat.element.group_bar_friend.ElementFriendLuckUser;
 import org.itstack.navice.chat.ui.view.chat.element.group_bar_friend.ElementFriendUser;
 
 import java.util.Date;
@@ -43,7 +44,7 @@ public class ChatController extends ChatInit implements IChatMethod{
 
     @Override
     public void initEventDefine() {
-        chatEventDefine = new ChatEventDefine(this, this); //会进行窗口和侧边栏图标的变换
+        chatEventDefine = new ChatEventDefine(this, this, chatEvent); //会进行窗口和侧边栏图标的变换
     }
 
     @Override
@@ -142,7 +143,7 @@ public class ChatController extends ChatInit implements IChatMethod{
             getElement("info_name", Label.class).setText("");
             talkElement.getInfoBoxList().getItems().clear();
             talkElement.clearMsgSketch();
-            System.out.println("删除对话框通知");
+            chatEvent.doEventDelTalkUser(super.userId, talkId);
         });
     }
 
@@ -218,6 +219,7 @@ public class ChatController extends ChatInit implements IChatMethod{
         sendMsgButton.setLayoutX(337);
         sendMsgButton.setLayoutY(450);
         sendMsgButton.setText("发送消息");
+        //给按钮sendMsgButton添加事件
         chatEventDefine.doEventOpenFriendUserSendMsg(sendMsgButton, userId, userNickName, userHead);
         children.add(sendMsgButton);
         // 设置了选中清空事件，实际效果就是我们点击整个元素，会清空最外层的列表friendList和用户列表userListView中其他的选中
@@ -307,5 +309,18 @@ public class ChatController extends ChatInit implements IChatMethod{
         talkElement.fillMsgSketch(msg, msgData);
         // 设置位置&选中
         chatView.updateTalkListIdxAndSelected(0, talkElement.getPane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+    }
+    @Override
+    public void addLuckFriend(String userId, String userNickName, String userHead, Integer status) {
+        ElementFriendLuckUser friendLuckUser = new ElementFriendLuckUser(userId, userNickName, userHead, status);
+        Pane pane = friendLuckUser.getPane();
+        // 添加到好友列表
+        ListView<Pane> friendLuckListView = getElement("friendLuckListView", ListView.class);
+        ObservableList<Pane> items = friendLuckListView.getItems();
+        items.add(pane);
+        // 给添加标签设置鼠标点击事件
+        friendLuckUser.getStatusLabel().setOnMousePressed(event -> {
+            chatEvent.doEventAddLuckUser(super.userId, userId);
+        });
     }
 }

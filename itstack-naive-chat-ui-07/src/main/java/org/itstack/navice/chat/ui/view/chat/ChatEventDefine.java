@@ -23,9 +23,12 @@ public class ChatEventDefine {
 
     private IChatMethod chatMethod;
 
-    public ChatEventDefine(ChatInit chatInit, IChatMethod chatMethod){
+    private IChatEvent chatEvent;
+
+    public ChatEventDefine(ChatInit chatInit, IChatMethod chatMethod, IChatEvent chatEvent){
         this.chatInit = chatInit;
         this.chatMethod = chatMethod;
+        this.chatEvent = chatEvent;
         chatInit.move();
         min();               // 最小化
         quit();              // 退出
@@ -45,16 +48,17 @@ public class ChatEventDefine {
     }
 
     // 退出
+    // 退出事件执行后，需要去发送给客户端执行断开 Socket 等操作
     private void quit() {
         chatInit.getElement("group_bar_chat_close", Button.class).setOnAction(event -> {
+            chatEvent.doQuit();
             chatInit.close();
             System.exit(0);
-            System.out.println("退出");
         });
         chatInit.getElement("group_bar_friend_close", Button.class).setOnAction(event -> {
+            chatEvent.doQuit();
             chatInit.close();
             System.exit(0);
-            System.out.println("退出");
         });
     }
     public void barChat(){
@@ -147,9 +151,10 @@ public class ChatEventDefine {
         }
         Date msgDate = new Date();
         // 发送消息
-        System.out.println("发送消息：" + msg);
+        chatEvent.doSendMsg(chatInit.userId, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg,msgDate);
         // 发送事件给自己添加消息
         chatMethod.addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
+        // 原来的文本内容清空
         txt_input.clear();
     }
 
@@ -164,6 +169,7 @@ public class ChatEventDefine {
             switchBarFriend(chatInit.getElement("bar_friend", Button.class),
                     chatInit.getElement("group_bar_friend", Pane.class), false);
             // 3. 事件处理；填充到对话框
+            chatEvent.doEventAddTalkGroup(chatInit.userId, groupId);
             System.out.println("事件处理；填充到对话框");
         });
     }
@@ -177,6 +183,7 @@ public class ChatEventDefine {
             switchBarFriend(chatInit.getElement("bar_friend", Button.class),
                     chatInit.getElement("group_bar_friend", Pane.class), false);
             // 3. 事件处理；填充到对话框
+            chatEvent.doEventAddTalkUser(chatInit.userId, userId);
             System.out.println("事件处理；填充到对话框");
         });
     }

@@ -1,9 +1,12 @@
 package org.itstack.navice.chat.ui;
 
+import javafx.scene.control.ListView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.itstack.navice.chat.ui.view.chat.ChatController;
 import org.itstack.navice.chat.ui.view.chat.IChatEvent;
 import org.itstack.navice.chat.ui.view.chat.IChatMethod;
+import org.itstack.navice.chat.ui.view.chat.element.group_bar_friend.ElementFriendLuckUser;
 
 import java.util.Date;
 
@@ -30,10 +33,59 @@ import java.util.Date;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // 事件类实现并注入
         IChatMethod chat = new ChatController(new IChatEvent() {
+            @Override
+            public void doQuit() {
+                System.out.println("退出操作！");
+            }
+            //在文本框中编辑信息，向好友或者群组发送触发  ChatEventDefine.doEventSendMsg()
+            @Override
+            public void doSendMsg(String userId, String talkId, Integer talkType, String msg, Date msgDate) {
+                System.out.println("发送消息");
+                System.out.println("userId：" + userId);
+                System.out.println("talkType[0好友/1群组]：" + talkType);
+                System.out.println("talkId：" + talkId);
+                System.out.println("msg：" + msg);
+            }
+            //点击好友框的某个好友的发送消息按钮，触发此事件
+            @Override
+            public void doEventAddTalkUser(String userId, String userFriendId) {
+                System.out.println("填充到聊天窗口[好友] userFriendId：" + userFriendId);
+            }
+            //点击好友框的某个群组的发送消息按钮，触发此事件
+            @Override
+            public void doEventAddTalkGroup(String userId, String groupId) {
+                System.out.println("填充到聊天窗口[群组] groupId：" + groupId);
+            }
+            //在聊天框删除某个好友和群组对话框时触发此事件
+            @Override
+            public void doEventDelTalkUser(String userId, String talkId) {
+                System.out.println("删除对话框：" + talkId);
+            }
+
+            //在好友窗口点击新的朋友触发此事件
+            @Override
+            public void addFriendLuck(String userId, ListView<Pane> listView) {
+                System.out.println("新的朋友");
+                // 添加朋友
+                listView.getItems().add(new ElementFriendLuckUser("1000005", "比丘卡", "05_50", 0).getPane());
+                listView.getItems().add(new ElementFriendLuckUser("1000006", "兰兰", "06_50", 1).getPane());
+                listView.getItems().add(new ElementFriendLuckUser("1000007", "Alexa", "07_50", 2).getPane());
+            }
+            //在新的朋友的右边界面的搜索栏中点击回车按钮触发此事件
+            @Override
+            public void doFriendLuckSearch(String userId, String text) {
+                System.out.println("搜索好友：" + text);
+            }
+            //点击新的朋友的搜索列表中添加或者允许标签触发此事件
+            @Override
+            public void doEventAddLuckUser(String userId, String friendId) {
+                System.out.println("添加好友：" + friendId);
+            }
         });
 
-        chat.doShow(); //ChatController会调用父类Stage的show方法
+        chat.doShow(); //ChatController会调用父类Stage的show方法,展示界面
         chat.setUserInfo("1000001", "拎包冲", "02_50");
 
         // 好友 - 对话框

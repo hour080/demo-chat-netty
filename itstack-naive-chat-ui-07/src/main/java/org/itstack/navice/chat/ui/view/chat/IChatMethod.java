@@ -13,7 +13,7 @@ public interface IChatMethod {
     void doShow();
 
     /**
-     * 设置登陆用户头像
+     * 设置登陆用户头像， 也就是自身用户的信息
      *
      * @param userId       用户ID
      * @param userNickName 用户昵称
@@ -74,7 +74,7 @@ public interface IChatMethod {
     void addTalkBox(int talkIdx, Integer talkType, String talkId, String talkName, String talkHead, String talkSketch, Date talkDate, Boolean selected);
 
     /**
-     * 好友列表添加‘群组’
+     * 好友栏群组列表添加‘群组’
      *
      * @param groupId   群组ID
      * @param groupName 群组名称
@@ -83,7 +83,7 @@ public interface IChatMethod {
     void addFriendGroup(String groupId, String groupName, String groupHead);
 
     /**
-     * 好友列表添加‘用户’
+     * 好友栏好友列表添加‘用户’
      *
      * @param selected     选中;true/false
      * @param userId       好友ID
@@ -91,4 +91,14 @@ public interface IChatMethod {
      * @param userHead     好友头像
      */
     void addFriendUser(boolean selected, String userId, String userNickName, String userHead);
+
+    /**
+     * 缘分好友 | 默认添加10个好友
+     *
+     * @param userId       好友ID
+     * @param userNickName 好友昵称
+     * @param userHead     好友头像
+     * @param status       状态；0添加、1允许、2已添加
+     */
+    void addLuckFriend(String userId, String userNickName, String userHead, Integer status);
 }

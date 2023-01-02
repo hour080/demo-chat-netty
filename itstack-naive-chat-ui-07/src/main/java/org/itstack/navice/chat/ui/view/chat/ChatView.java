@@ -112,7 +112,7 @@ public class ChatView {
         ElementFriendLuck elementFriendLuck = new ElementFriendLuck();
         Pane pane = elementFriendLuck.getPane();
         items.add(pane);
-        //为好友对象面板设置鼠标点击事件
+        //为点击“新的朋友”面板设置鼠标点击事件,
         pane.setOnMousePressed(event -> {
             //获得好友栏中的新的朋友对应的右边界面面板friendLuckPane
             Pane friendLuckPane = elementFriendLuck.getFriendLuckPane();
@@ -121,9 +121,11 @@ public class ChatView {
             //因为是 ListView 里嵌套 ListView，鼠标点击不同的框体，都会是选中，不会去掉选中。所以我们需要添加额外的事件来处理。
             chatInit.clearViewListSelectedAll(chatInit.getElement("userListView", ListView.class),
                     chatInit.getElement("groupListView", ListView.class));
+            //得到待添加的好友列表信息
             ListView<Pane> listView = elementFriendLuck.getFriendLuckListView();
             listView.getItems().clear();
-            System.out.println("添加好友");
+            chatEvent.addFriendLuck(chatInit.userId, listView); //添加新的好友
+//            System.out.println("添加好友");
         });
         //搜索栏
         TextField friendLuckSearch = elementFriendLuck.getFriendLuckSearch();
@@ -136,14 +138,10 @@ public class ChatView {
                 if(text == null) text = "";
                 if(text.length() > 30) text = text.substring(0, 30);
                 text = text.trim();
-                System.out.println("搜搜好友：" + text);
+                chatEvent.doFriendLuckSearch(chatInit.userId, text);
+//                System.out.println("搜搜好友：" + text);
                 // 搜索清空元素
                 elementFriendLuck.getFriendLuckListView().getItems().clear();
-                elementFriendLuck.getFriendLuckListView().getItems().add(
-                        new ElementFriendLuckUser("1000005", "比丘卡", "05_50", 0)
-                                .getPane());
-                elementFriendLuck.getFriendLuckListView().getItems().add(new ElementFriendLuckUser("1000006", "兰兰", "06_50", 1).getPane());
-                elementFriendLuck.getFriendLuckListView().getItems().add(new ElementFriendLuckUser("1000007", "Alexa", "07_50", 2).getPane());
             }
         });
     }
