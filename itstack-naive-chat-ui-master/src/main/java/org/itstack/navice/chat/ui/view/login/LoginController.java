@@ -1,5 +1,7 @@
 package org.itstack.navice.chat.ui.view.login;
 
+import org.itstack.navice.chat.ui.view.chat.IChatMethod;
+
 /**
  * TODO
  *  窗体的控制管理类
@@ -13,9 +15,13 @@ public class LoginController extends LoginInit implements ILoginMethod{
     //给最小化，退出和登陆按钮绑定事件，包括LoginInit中的鼠标移动事件和ILoginEvent中的登陆信息的处理事件
     private LoginEventDefine loginEventDefine;   //LoginInit + ILoginEvent + loginMethod
 
-    public LoginController(ILoginEvent loginEvent) {
-        super(loginEvent); //执行父类LoginInit的有参初始化，传入一个具体的loginEvent。
+    private IChatMethod chat;
+
+    public LoginController(ILoginEvent loginEvent, IChatMethod chat) {
+        //执行父类LoginInit的有参初始化，传入一个具体的loginEvent。
         //然后调用initView和initEventDefine方法来初始化登陆视图和初始化事件定义
+        super(loginEvent);
+        this.chat = chat; //ChatController
     }
 
     @Override
@@ -31,7 +37,9 @@ public class LoginController extends LoginInit implements ILoginMethod{
     @Override
     public void doLoginSuccess() {
         System.out.println("登陆成功，执行跳转操作");
-        close();
+        close(); //关闭原窗口
+        // 打开聊天窗口
+        chat.doShow();
     }
 
     @Override

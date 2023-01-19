@@ -4,12 +4,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import org.itstack.navice.chat.ui.view.chat.data.TalkBoxData;
+import org.itstack.navice.chat.ui.view.face.FaceController;
 
 import java.util.Date;
 
 
 /**
- * TODO
  * Button类继承自Labeled类，它可以显示文本，图像，或两者兼而有之
  * 当鼠标点击按钮时，首要的功能就是执行一个Action。使用setOnAction的方法来定义当用户点击按钮时将发生什么
  *
@@ -36,7 +36,18 @@ public class ChatEventDefine {
         this.barFriend();
         doEventTextSend();   // 发送消息事件[键盘]
         doEventTouchSend();  // 发送消息事件[按钮]
+        doEventToolFace();   // 表情窗体
     }
+    //设置表情按钮的点击事件，每次点击按钮，就会将聊天表情框体展开
+    private void doEventToolFace() {
+        FaceController face = new FaceController(chatInit, chatEvent, chatMethod);
+        Button tool_face = chatInit.getElement("tool_face", Button.class);
+        //点击表情按钮就会展示聊天表情框体
+        tool_face.setOnMousePressed(event -> {
+            face.doShowFace(chatMethod.getToolFaceX(), chatMethod.getToolFaceY());
+        });
+    }
+
     // 最小化
     private void min() {
         chatInit.getElement("group_bar_chat_min", Button.class).setOnAction(event -> {
@@ -151,9 +162,9 @@ public class ChatEventDefine {
         }
         Date msgDate = new Date();
         // 发送消息
-        chatEvent.doSendMsg(chatInit.userId, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg,msgDate);
+        chatEvent.doSendMsg(chatInit.userId, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg, 0, msgDate);
         // 发送事件给自己添加消息
-        chatMethod.addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
+        chatMethod.addTalkMsgRight(talkBoxData.getTalkId(), msg, 0, msgDate, true, true, false);
         // 原来的文本内容清空
         txt_input.clear();
     }

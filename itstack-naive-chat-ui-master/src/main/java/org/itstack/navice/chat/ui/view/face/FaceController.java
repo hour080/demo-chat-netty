@@ -1,9 +1,14 @@
-package org.itstack.naive.chat.ui.view.face;
+package org.itstack.navice.chat.ui.view.face;
 
-import org.itstack.naive.chat.ui.view.UIObject;
-import org.itstack.naive.chat.ui.view.chat.ChatInit;
-import org.itstack.naive.chat.ui.view.chat.IChatEvent;
-import org.itstack.naive.chat.ui.view.chat.IChatMethod;
+
+import org.itstack.navice.chat.ui.view.UIObject;
+import org.itstack.navice.chat.ui.view.chat.ChatInit;
+import org.itstack.navice.chat.ui.view.chat.IChatEvent;
+import org.itstack.navice.chat.ui.view.chat.IChatMethod;
+import org.itstack.navice.chat.ui.view.face.FaceEventDefine;
+import org.itstack.navice.chat.ui.view.face.FaceInit;
+import org.itstack.navice.chat.ui.view.face.FaceView;
+import org.itstack.navice.chat.ui.view.face.IFaceMethod;
 
 /**
  * 微信公众号：bugstack虫洞栈 | 欢迎关注学习专题案例
@@ -14,8 +19,7 @@ public class FaceController extends FaceInit implements IFaceMethod {
 
     private FaceView faceView;
 
-    public FaceController(UIObject obj, ChatInit chatInit, IChatEvent chatEvent, IChatMethod chatMethod) {
-        super(obj);
+    public FaceController(ChatInit chatInit, IChatEvent chatEvent, IChatMethod chatMethod) {
         this.chatInit = chatInit;
         this.chatEvent = chatEvent;
         this.chatMethod = chatMethod;

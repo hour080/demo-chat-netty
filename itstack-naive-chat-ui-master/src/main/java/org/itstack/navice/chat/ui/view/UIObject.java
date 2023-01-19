@@ -80,4 +80,19 @@ public abstract class UIObject extends Stage {
             listView.getSelectionModel().clearSelection();
         }
     }
+    public double x(){
+        return getX();
+    }
+
+    public double y(){
+        return getY();
+    }
+
+    public double width(){
+        return getWidth();
+    }
+
+    public double height(){
+        return getHeight();
+    }
 }

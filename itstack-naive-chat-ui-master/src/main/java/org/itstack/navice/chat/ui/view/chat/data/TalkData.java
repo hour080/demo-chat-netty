@@ -1,7 +1,6 @@
 package org.itstack.navice.chat.ui.view.chat.data;
 
 /**
- * TODO
  * 与好友聊天的好友数据
  * @author hourui
  * @version 1.0
