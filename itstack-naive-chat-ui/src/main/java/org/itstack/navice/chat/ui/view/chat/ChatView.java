@@ -32,7 +32,7 @@ public class ChatView {
         this.chatEvent = chatEvent;
         ListView friendList = chatInit.getElement("friendList", ListView.class);
         items = friendList.getItems();
-        //1. 好友列表添加工具方法‘新的朋友’, 点击新的哦嗯有会填充右边展示面板，并且回车会默认添加新的好友
+        //1. 好友列表添加工具方法‘新的朋友’, 点击新的好友有会填充右边展示面板，并且回车会默认添加新的好友
         initAddFriendLuck();
         //2. 好友列表添加‘公众号’, 点击公众号会填充右边展示面板
         addFriendSubscription();

@@ -45,7 +45,7 @@ public interface IChatEvent {
      */
     void doEventDelTalkUser(String userId, String talkId);
     /**
-     * 事件处理；查询有缘用户添加到待添加好友列表
+     * 事件处理；查询有缘用户添加到待添加好友列表， 也就是点击新的朋友后的可添加朋友的初始化
      *
      * @param userId   用户 ID
      * @param listView 用户列表 [非必需使用，同步接口可使用]
