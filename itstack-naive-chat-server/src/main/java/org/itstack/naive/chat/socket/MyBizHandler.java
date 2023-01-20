@@ -44,7 +44,7 @@ public abstract class MyBizHandler<T> extends SimpleChannelInboundHandler<T> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.error("服务端异常断开", cause.getMessage());
+        logger.error("服务端异常断开,异常类型为{},异常消息为{}", cause.getClass(),cause.getMessage());
     }
 
 }

@@ -3,5 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.itstack.naive.chat.infrastructure.dao.IUserFriendDao">
-
+    <select id="queryUserFriendById" parameterType="userFriend" resultType="userFriend">
+        select userId, userFriendId from user_friend where userId = #{userId} and userFriendId = #{userFriendId}
+    </select>
+    <insert id="addUserFriend" parameterType="list">
+        insert into user_friend
+        ( userId, userFriendId, createTime, updateTime )  values
+        <foreach collection="userFriendList" item="item" separator=",">
+            (
+            #{item.userId},
+            #{item.userFriendId},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
 </mapper>

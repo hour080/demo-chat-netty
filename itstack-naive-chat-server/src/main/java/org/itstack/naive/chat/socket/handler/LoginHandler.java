@@ -10,8 +10,7 @@ import org.itstack.naive.chat.protocol.login.LoginResponse;
 import org.itstack.naive.chat.socket.MyBizHandler;
 
 /**
- * TODO
- *
+ * 处理客户端登陆请求的入站处理器
  * @author hourui
  * @version 1.0
  * @Description

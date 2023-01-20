@@ -9,4 +9,8 @@
     <select id="queryUserInfo" resultType="user">
         select userId, userNickName, userHead from user where userId = #{userId}
     </select>
+    <select id="queryUserInfoListBySearchKey" parameterType="string" resultType="user">
+        select userId, userNickName, userHead from user
+        where userId != #{userId} and (userId like CONCAT('%',#{searchKey},'%') or userNickName like CONCAT('%',#{searchKey},'%'))
+    </select>
 </mapper>

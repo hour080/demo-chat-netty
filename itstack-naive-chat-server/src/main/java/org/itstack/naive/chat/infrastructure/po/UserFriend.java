@@ -20,5 +20,9 @@ public class UserFriend {
     private Date createTime;     // 创建时间
     private Date updateTime;     // 更新时间
 
+    public UserFriend(String userId, String userFriendId) {
+        this.userId = userId;
+        this.userFriendId = userFriendId;
+    }
 
 }

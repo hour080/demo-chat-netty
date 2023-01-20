@@ -23,4 +23,8 @@ public class SocketChannelUtil {
         userToChannel.put(userId, channel);
         channelIdToUser.put(channel.id().toString(), userId);
     }
+
+    public static Channel getChannel(String userId) {
+        return userToChannel.get(userId);
+    }
 }

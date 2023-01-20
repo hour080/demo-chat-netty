@@ -8,3 +8,6 @@ mybatis:
 #  config-location: classpath:/mybatis/config/mybatis-config.xml #mybatis的全局配置路径
   mapper-locations: classpath:/mybatis/mapper/*.xml #mybatis映射文件的位置
   type-aliases-package: org.itstack.naive.chat.infrastructure.po #设置别名
+logging:
+  level:
+    org.itstack.naive.chat.infrastructure.dao: debug
