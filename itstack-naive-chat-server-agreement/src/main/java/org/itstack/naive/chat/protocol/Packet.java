@@ -1,5 +1,9 @@
 package org.itstack.naive.chat.protocol;
 
+import org.itstack.naive.chat.protocol.friend.AddFriendRequest;
+import org.itstack.naive.chat.protocol.friend.AddFriendResponse;
+import org.itstack.naive.chat.protocol.friend.SearchFriendRequest;
+import org.itstack.naive.chat.protocol.friend.SearchFriendResponse;
 import org.itstack.naive.chat.protocol.login.LoginRequest;
 import org.itstack.naive.chat.protocol.login.LoginResponse;
 
@@ -18,6 +22,10 @@ public abstract class Packet {
     static {
         packetType.put(Command.LoginRequest, LoginRequest.class);
         packetType.put(Command.LoginResponse, LoginResponse.class);
+        packetType.put(Command.AddFriendRequest, AddFriendRequest.class);
+        packetType.put(Command.AddFriendResponse, AddFriendResponse.class);
+        packetType.put(Command.SearchFriendRequest, SearchFriendRequest.class);
+        packetType.put(Command.SearchFriendResponse, SearchFriendResponse.class);
     }
     public static Class<? extends Packet> get(Byte command){
         return packetType.get(command);
