@@ -6,6 +6,8 @@ import javafx.scene.layout.Pane;
 import org.itstack.naive.chat.client.infrastructure.util.BeanUtil;
 import org.itstack.naive.chat.protocol.friend.AddFriendRequest;
 import org.itstack.naive.chat.protocol.friend.SearchFriendRequest;
+import org.itstack.naive.chat.protocol.talk.DelTalkRequest;
+import org.itstack.naive.chat.protocol.talk.TalkNoticeRequest;
 import org.itstack.navice.chat.ui.view.chat.IChatEvent;
 
 import java.util.Date;
@@ -24,19 +26,32 @@ public class ChatEvent implements IChatEvent {
 
     }
 
+    /**
+     * 在好友栏中点击与好友对话按钮，触发的事件
+     * 具体在ChatEventDefine.doEventOpenFriendUserSendMsg中
+     * @param userId
+     * @param userFriendId
+     * @author hourui
+     * @date 2023/1/23 22:10
+     * @return void
+     */
     @Override
     public void doEventAddTalkUser(String userId, String userFriendId) {
-
+        Channel channel = BeanUtil.getBean("channel", Channel.class);
+        channel.writeAndFlush(new TalkNoticeRequest(userId, userFriendId, 0));
     }
+
 
     @Override
     public void doEventAddTalkGroup(String userId, String groupId) {
-
+        Channel channel = BeanUtil.getBean("channel", Channel.class);
+        channel.writeAndFlush(new TalkNoticeRequest(userId, groupId, 1));
     }
 
     @Override
     public void doEventDelTalkUser(String userId, String talkId) {
-
+        Channel channel = BeanUtil.getBean("channel", Channel.class);
+        channel.writeAndFlush(new DelTalkRequest(userId, talkId));
     }
 
 
