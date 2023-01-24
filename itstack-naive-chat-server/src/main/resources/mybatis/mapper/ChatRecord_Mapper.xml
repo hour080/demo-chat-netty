@@ -4,4 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.itstack.naive.chat.infrastructure.dao.IChatRecordDao">
 
+    <select id="queryUserChatRecordList" resultType="chatRecord">
+        select userId, friendId, msgContent, msgDate, msgType
+        from chat_record
+        where talkType = 0 and (userId = #{userId} and friendId = #{talkId})
+           or (userId = #{talkId} and friendId = #{userId})
+        order by msgDate desc
+        limit 10
+    </select>
+    <select id="queryGroupChatRecordList" resultType="chatRecord">
+        select userId, friendId, msgContent, msgDate, msgType
+        from chat_record
+        where talkType = 1 and friendId = #{talkId}
+        order by msgDate desc
+        limit 10
+    </select>
 </mapper>

@@ -6,7 +6,7 @@
     <select id="queryUserPassword" parameterType="string" resultType="string">
         select userPassword from user where userId = #{userId}
     </select>
-    <select id="queryUserInfo" resultType="user">
+    <select id="queryUserByUserId" resultType="user">
         select userId, userNickName, userHead from user where userId = #{userId}
     </select>
     <select id="queryUserInfoListBySearchKey" parameterType="string" resultType="user">

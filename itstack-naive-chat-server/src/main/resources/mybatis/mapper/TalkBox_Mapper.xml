@@ -3,5 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.itstack.naive.chat.infrastructure.dao.ITalkBoxDao">
+    <insert id="addTalkBox" parameterType="talkBox">
+        insert into talk_box (userId, talkId, talkType, createTime, updateTime)
+        values (#{userId}, #{talkId}, #{talkType}, #{createTime}, #{updateTime})
+    </insert>
+    <delete id="deleteTalkBox" parameterType="string">
+        delete from talk_box where userId = #{userId} and talkId = #{talkId}
+    </delete>
 
+    <select id="queryTalkBox" parameterType="string" resultType="talkBox">
+        select * from talk_box where userId = #{userId} and talkId = #{talkId}
+    </select>
+    <select id="queryTalkBoxList" parameterType="string" resultType="talkBox">
+        select * from talk_box where userId = #{userId}
+    </select>
 </mapper>

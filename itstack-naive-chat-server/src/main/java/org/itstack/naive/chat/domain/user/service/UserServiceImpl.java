@@ -1,8 +1,7 @@
 package org.itstack.naive.chat.domain.user.service;
 
 import org.itstack.naive.chat.application.UserService;
-import org.itstack.naive.chat.domain.user.model.LuckUserInfo;
-import org.itstack.naive.chat.domain.user.model.UserInfo;
+import org.itstack.naive.chat.domain.user.model.*;
 import org.itstack.naive.chat.infrastructure.po.UserFriend;
 import org.itstack.naive.chat.infrastructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * TODO
- *
  * @author hourui
  * @version 1.0
  * @Description
@@ -44,5 +41,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUserFriend(List<UserFriend> userFriendList) {
         userRepository.addUserFriend(userFriendList);
+    }
+
+    @Override
+    public void addTalkBoxInfo(String userId, String talkId, Integer talkType) {
+        userRepository.addTalkBoxInfo(userId, talkId, talkType);
+    }
+
+    @Override
+    public void deleteTalkBox(String userId, String talkId) {
+        userRepository.deleteTalkBox(userId, talkId);
+    }
+
+    @Override
+    public List<TalkBoxInfo> queryTalkBoxInfoList(String userId) {
+        return userRepository.queryTalkBoxInfoList(userId);
+    }
+
+    @Override
+    public List<ChatRecordInfo> queryChatRecordInfoList(String talkId, String userId, Integer talkType) {
+        return userRepository.queryChatRecordInfoList(talkId, userId, talkType);
+    }
+
+    @Override
+    public List<UserGroupInfo> queryUserGroupInfoList(String userId) {
+        return userRepository.queryUserGroupInfoList(userId);
+    }
+
+    @Override
+    public List<UserFriendInfo> queryUserFriendInfoList(String userId) {
+        return userRepository.queryUserFriendInfoList(userId);
     }
 }

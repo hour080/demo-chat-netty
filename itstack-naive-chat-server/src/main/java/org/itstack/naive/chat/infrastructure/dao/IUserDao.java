@@ -9,7 +9,7 @@ import java.util.List;
 public interface IUserDao {
     String queryUserPassword(@Param("userId") String userId);
 
-    User queryUserInfo(@Param("userId")String userId);
+    User queryUserByUserId(@Param("userId")String userId);
 
     List<User> queryUserInfoListBySearchKey(@Param("userId") String userId, @Param("searchKey") String searchKey);
 }

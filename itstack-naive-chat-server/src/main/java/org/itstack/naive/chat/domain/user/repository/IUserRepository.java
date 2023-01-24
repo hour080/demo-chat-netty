@@ -1,9 +1,7 @@
 package org.itstack.naive.chat.domain.user.repository;
 
-import org.itstack.naive.chat.domain.user.model.LuckUserInfo;
-import org.itstack.naive.chat.domain.user.model.UserInfo;
+import org.itstack.naive.chat.domain.user.model.*;
 import org.itstack.naive.chat.infrastructure.po.UserFriend;
-import org.itstack.naive.chat.protocol.friend.dto.UserDto;
 
 import java.util.List;
 
@@ -50,4 +48,25 @@ public interface IUserRepository {
      * @return void
      */
     void addUserFriend(List<UserFriend> userFriendList);
+
+    /**
+     * 添加对话框
+     * @param userId 用户id
+     * @param talkId 对话框id
+     * @param talkType 对话框类型
+     * @author hourui
+     * @date 2023/1/24 12:06
+     * @return void
+     */
+    void addTalkBoxInfo(String userId, String talkId, Integer talkType);
+
+    void deleteTalkBox(String userId, String talkId);
+
+    List<TalkBoxInfo> queryTalkBoxInfoList(String userId);
+
+    List<ChatRecordInfo> queryChatRecordInfoList(String talkId, String userId, Integer talkType);
+
+    List<UserGroupInfo> queryUserGroupInfoList(String userId);
+
+    List<UserFriendInfo> queryUserFriendInfoList(String userId);
 }

@@ -6,6 +6,10 @@
     <select id="queryUserFriendById" parameterType="userFriend" resultType="userFriend">
         select userId, userFriendId from user_friend where userId = #{userId} and userFriendId = #{userFriendId}
     </select>
+    <select id="queryUserFriendIdList" resultType="string">
+        select userFriendId from user_friend where userId = #{userId}
+    </select>
+    <!--collection中默认集合是list，数组是array，除非使用@Param指定-->
     <insert id="addUserFriend" parameterType="list">
         insert into user_friend
         ( userId, userFriendId, createTime, updateTime )  values

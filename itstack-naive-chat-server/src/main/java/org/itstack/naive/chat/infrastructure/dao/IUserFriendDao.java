@@ -9,4 +9,6 @@ public interface IUserFriendDao {
     UserFriend queryUserFriendById(UserFriend userFriend);
 
     void addUserFriend(@Param("userFriendList") List<UserFriend> userFriendList);
+
+    List<String> queryUserFriendIdList(@Param("userId") String userId);
 }
