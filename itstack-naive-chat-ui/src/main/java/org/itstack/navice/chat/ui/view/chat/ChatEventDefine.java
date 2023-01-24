@@ -182,7 +182,6 @@ public class ChatEventDefine {
                     chatInit.getElement("group_bar_friend", Pane.class), false);
             // 3. 事件处理；填充到对话框
             chatEvent.doEventAddTalkGroup(chatInit.userId, groupId);
-            System.out.println("事件处理；填充到对话框");
         });
     }
 
@@ -194,9 +193,8 @@ public class ChatEventDefine {
                     chatInit.getElement("group_bar_chat", Pane.class), true);
             switchBarFriend(chatInit.getElement("bar_friend", Button.class),
                     chatInit.getElement("group_bar_friend", Pane.class), false);
-            // 3. 事件处理；填充到对话框
+            // 3. 事件处理；向服务端发送增加对话框请求，填充到对话框
             chatEvent.doEventAddTalkUser(chatInit.userId, userId);
-            System.out.println("事件处理；填充到对话框");
         });
     }
 }

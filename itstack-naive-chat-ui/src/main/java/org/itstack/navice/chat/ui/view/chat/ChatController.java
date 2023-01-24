@@ -89,7 +89,11 @@ public class ChatController extends ChatInit implements IChatMethod {
         if(elementTalk != null){
             Node talkNode = talkList.lookup("#" + IdUtil.createTalkPaneId(talkId));
             if(talkNode == null){
-                talkList.getItems().add(talkIdx, elementTalk.getPane());
+                if(talkIdx >= 0) {
+                    talkList.getItems().add(talkIdx, elementTalk.getPane());
+                }else{
+                    talkList.getItems().add(elementTalk.getPane());
+                }
                 // 填充对话框消息栏
                 fillInfoBox(elementTalk, talkName);
             }
