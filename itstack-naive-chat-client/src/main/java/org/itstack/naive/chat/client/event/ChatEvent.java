@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import org.itstack.naive.chat.client.infrastructure.util.BeanUtil;
 import org.itstack.naive.chat.protocol.friend.AddFriendRequest;
 import org.itstack.naive.chat.protocol.friend.SearchFriendRequest;
+import org.itstack.naive.chat.protocol.msg.MsgRequest;
 import org.itstack.naive.chat.protocol.talk.DelTalkRequest;
 import org.itstack.naive.chat.protocol.talk.TalkNoticeRequest;
 import org.itstack.navice.chat.ui.view.chat.IChatEvent;
@@ -23,7 +24,11 @@ public class ChatEvent implements IChatEvent {
 
     @Override
     public void doSendMsg(String userId, String talkId, Integer talkType, String msg, Integer msgType, Date msgDate) {
-
+        Channel channel = BeanUtil.getBean("channel", Channel.class); //NioSocketChannel
+        if(talkType == 0){
+            //向好友发送消息
+            channel.writeAndFlush(new MsgRequest(userId, talkId, msg, msgType, msgDate)); //触发出站处理器，也就是将对象编码为字节数组
+        }
     }
 
     /**

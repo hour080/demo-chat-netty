@@ -5,10 +5,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 import org.itstack.naive.chat.client.application.UIService;
-import org.itstack.naive.chat.client.socket.handler.AddFriendHandler;
-import org.itstack.naive.chat.client.socket.handler.LoginHandler;
-import org.itstack.naive.chat.client.socket.handler.SearchFriendHandler;
-import org.itstack.naive.chat.client.socket.handler.TalkNoticeHandler;
+import org.itstack.naive.chat.client.socket.handler.*;
 import org.itstack.naive.chat.codec.ObjDecoder;
 import org.itstack.naive.chat.codec.ObjEncoder;
 
@@ -32,6 +29,7 @@ public class MyChannelInitializer extends ChannelInitializer<NioSocketChannel> {
         channel.pipeline().addLast(new SearchFriendHandler(uiService));
         channel.pipeline().addLast(new AddFriendHandler(uiService));
         channel.pipeline().addLast(new TalkNoticeHandler(uiService));
+        channel.pipeline().addLast(new MsgHandler(uiService));
         channel.pipeline().addLast(new ObjEncoder());
     }
 

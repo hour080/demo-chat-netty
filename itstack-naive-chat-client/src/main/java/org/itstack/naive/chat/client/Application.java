@@ -33,6 +33,7 @@ public class Application extends javafx.application.Application {
         // 1. 启动窗口,其中ChatEvent和LoginEvent都是客户端自己实现的类, 这样UI界面触发事件时就会执行客户端定义的逻辑
         IChatMethod chat = new ChatController(new ChatEvent());
         ILoginMethod login = new LoginController(new LoginEvent(), chat); //登陆成功以后显示chat界面
+        //c
         login.doShow();
 
         UIService uiService = new UIService();
