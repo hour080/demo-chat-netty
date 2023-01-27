@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import org.itstack.naive.chat.client.infrastructure.util.BeanUtil;
 import org.itstack.naive.chat.protocol.friend.AddFriendRequest;
 import org.itstack.naive.chat.protocol.friend.SearchFriendRequest;
+import org.itstack.naive.chat.protocol.msg.MsgGroupRequest;
 import org.itstack.naive.chat.protocol.msg.MsgRequest;
 import org.itstack.naive.chat.protocol.talk.DelTalkRequest;
 import org.itstack.naive.chat.protocol.talk.TalkNoticeRequest;
@@ -28,6 +29,9 @@ public class ChatEvent implements IChatEvent {
         if(talkType == 0){
             //向好友发送消息
             channel.writeAndFlush(new MsgRequest(userId, talkId, msg, msgType, msgDate)); //触发出站处理器，也就是将对象编码为字节数组
+        }else if(talkType == 1){
+            //在群组的对话框发送消息，此时msgType = 1
+            channel.writeAndFlush(new MsgGroupRequest(talkId, userId, msg, msgType, msgDate));
         }
     }
 

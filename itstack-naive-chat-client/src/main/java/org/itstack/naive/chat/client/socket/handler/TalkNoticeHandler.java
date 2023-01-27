@@ -25,6 +25,8 @@ public class TalkNoticeHandler extends MyBizHandler<TalkNoticeResponse> {
     public void channelRead(Channel channel, TalkNoticeResponse msg) {
         IChatMethod chat = uiService.getChat();
         Platform.runLater(() -> {
+            //在好友界面点击发送消息按钮以后，当前用户创建对话框
+            //这里是其他用户创建对话框
             chat.addTalkBox(-1, 0, msg.getTalkId(), msg.getTalkName(), msg.getTalkHead(), msg.getTalkSketch(), msg.getTalkDate(), false);
         });
     }
