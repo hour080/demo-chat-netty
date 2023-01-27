@@ -89,4 +89,13 @@ public interface UserService {
      * @return void
      */
     void aysncAppendChatRecord(ChatRecordInfo chatRecordInfo);
+
+    /**
+     * 记录当前用户参加的所有群组id
+     * @param userId
+     * @author hourui
+     * @date 2023/1/27 22:35
+     * @return java.util.List<java.lang.String>
+     */
+    List<String> queryUserGroupIdList(String userId);
 }

@@ -77,4 +77,6 @@ public interface IUserRepository {
      * @return void
      */
     void appendChatRecordInfo(ChatRecordInfo chatRecordInfo);
+
+    List<String> queryUserGroupIdList(String userId);
 }

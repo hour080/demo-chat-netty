@@ -1,13 +1,20 @@
 package org.itstack.naive.chat.infrastructure.common;
 
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * TODO
- *
+ * EventExecutor则是在事件触发的时候，将事件执行的逻辑交给它去处理
+ * inEventLoop()方法判断当前线程是否在EventExecutor中,也就是当前线程是否是EventExecutor的执行线程
+ * EventExecutorGroup负责管理一组EventExecutor
+ * EventExecutor本身并不包含事件的处理逻辑，而是相当于提供一个执行事件的线程
+ * 去执行ChannelHandler中的事件处理逻辑
+ * NioEventLoop继承了EventExector
  * @author hourui
  * @version 1.0
  * @Description
@@ -19,6 +26,8 @@ public class SocketChannelUtil {
 
     private static Map<String, String> channelIdToUser = new ConcurrentHashMap<>();
 
+    private static Map<String, ChannelGroup> channelGroupMap = new ConcurrentHashMap<>();
+
     public static void addChannel(String userId, Channel channel){
         userToChannel.put(userId, channel);
         channelIdToUser.put(channel.id().toString(), userId);
@@ -26,5 +35,18 @@ public class SocketChannelUtil {
 
     public static Channel getChannel(String userId) {
         return userToChannel.get(userId);
+    }
+
+    public static synchronized void addChannelGroup(String talkId, Channel userChannel){
+        ChannelGroup channelGroup = channelGroupMap.get(talkId);
+        //这里可能有并发安全问题
+        if(channelGroup == null){
+            channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+            channelGroupMap.put(talkId, channelGroup);
+        }
+        channelGroup.add(userChannel);
+    }
+    public static ChannelGroup getChannelGroup(String talkId){
+        return channelGroupMap.get(talkId);
     }
 }

@@ -205,4 +205,9 @@ public class UserRepository implements IUserRepository {
         chatRecordDao.appendChatRecord(chatRecord);
     }
 
+    @Override
+    public List<String> queryUserGroupIdList(String userId) {
+        return userGroupDao.queryUserGroupIdList(userId);
+    }
+
 }

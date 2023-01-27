@@ -61,7 +61,7 @@ public class TalkNoticeHandler extends MyBizHandler<TalkNoticeRequest> {
                 friendChannel.writeAndFlush(response);
                 break;
             case 1:
-                //如果是群组通信
+                //如果是群组通信，只需要在当前用户添加群组对话框即可，不需要通知群组创建对话框
                 userService.addTalkBoxInfo(msg.getUserId(), msg.getFriendId(), talkType);
                 break;
             default:

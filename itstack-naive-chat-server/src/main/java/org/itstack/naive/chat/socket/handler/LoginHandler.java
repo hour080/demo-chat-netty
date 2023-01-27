@@ -41,9 +41,16 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
             return;
         }
         //登陆成功
-        //1.记录当前登陆用户和建立的channel之间的绑定关系
+        //1.1 记录当前登陆用户和建立的channel之间的绑定关系
         //用户发送消息给其他用户时候，在服务端找到相应的接收消息的用户ID，获取相应的通信管道 Channel 后，进行消息发送
         SocketChannelUtil.addChannel(msg.getUserId(), channel);
+        //1.2 绑定群组
+        //获得当前用户参加的所有群组
+        List<String> userGroupIdList = userService.queryUserGroupIdList(msg.getUserId());
+        //遍历每一个群组
+        for (String groupId : userGroupIdList) {
+            SocketChannelUtil.addChannelGroup(groupId, channel);
+        }
         //2. 反馈消息；用户信息、用户对话框列表、好友列表、群组列表
         LoginResponse loginResponse = new LoginResponse();
         //2.1 用户信息

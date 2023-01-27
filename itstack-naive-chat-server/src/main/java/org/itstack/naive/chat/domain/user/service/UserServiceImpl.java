@@ -95,4 +95,9 @@ public class UserServiceImpl implements UserService {
             }
         });
     }
+
+    @Override
+    public List<String> queryUserGroupIdList(String userId) {
+        return userRepository.queryUserGroupIdList(userId);
+    }
 }
