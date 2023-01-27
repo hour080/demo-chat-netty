@@ -72,7 +72,7 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
                 List<ChatRecordInfo> chatRecordInfoList = userService.queryChatRecordInfoList(talkBoxInfo.getTalkId(), msg.getUserId(), talkBoxInfo.getTalkType());
                 for (ChatRecordInfo chatRecordInfo : chatRecordInfoList) {
                     ChatRecordDto chatRecordDto = new ChatRecordDto();
-                    //设置聊天记录所属的对话框id
+                    //设置聊天记录所属的对话框id，也就是好友id或者群组id
                     chatRecordDto.setFriendId(talkBoxInfo.getTalkId());
                     //如果该消息是当前用户发出的
                     if(msg.getUserId().equals(chatRecordInfo.getUserId())){

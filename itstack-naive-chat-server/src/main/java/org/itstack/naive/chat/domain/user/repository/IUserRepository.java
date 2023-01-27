@@ -69,4 +69,12 @@ public interface IUserRepository {
     List<UserGroupInfo> queryUserGroupInfoList(String userId);
 
     List<UserFriendInfo> queryUserFriendInfoList(String userId);
+    /**
+     * 异步添加聊天消息
+     * @param chatRecordInfo
+     * @author hourui
+     * @date 2023/1/26 22:32
+     * @return void
+     */
+    void appendChatRecordInfo(ChatRecordInfo chatRecordInfo);
 }

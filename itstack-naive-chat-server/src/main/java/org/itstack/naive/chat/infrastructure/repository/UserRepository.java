@@ -5,6 +5,7 @@ import org.itstack.naive.chat.domain.user.repository.IUserRepository;
 import org.itstack.naive.chat.infrastructure.dao.*;
 import org.itstack.naive.chat.infrastructure.po.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -91,6 +92,7 @@ public class UserRepository implements IUserRepository {
      */
     @Override
     public void addTalkBoxInfo(String userId, String talkId, Integer talkType) {
+        //如果userId和talkId已经存在，则不需要添加对话框
         if(null != talkBoxDao.queryTalkBox(userId, talkId)) return;
         TalkBox talkBox = new TalkBox();
         talkBox.setUserId(userId);
@@ -189,6 +191,18 @@ public class UserRepository implements IUserRepository {
             userFriendInfoList.add(userFriendInfo);
         }
         return userFriendInfoList;
+    }
+
+    @Override
+    public void appendChatRecordInfo(ChatRecordInfo chatRecordInfo) {
+        ChatRecord chatRecord = new ChatRecord();
+        chatRecord.setUserId(chatRecordInfo.getUserId());
+        chatRecord.setFriendId(chatRecordInfo.getFriendId());
+        chatRecord.setMsgContent(chatRecordInfo.getMsgContent());
+        chatRecord.setMsgType(chatRecordInfo.getMsgType());
+        chatRecord.setMsgDate(chatRecordInfo.getMsgDate());
+        chatRecord.setTalkType(chatRecordInfo.getTalkType());
+        chatRecordDao.appendChatRecord(chatRecord);
     }
 
 }

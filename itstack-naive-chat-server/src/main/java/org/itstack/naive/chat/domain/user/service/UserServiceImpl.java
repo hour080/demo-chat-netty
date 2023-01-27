@@ -1,5 +1,6 @@
 package org.itstack.naive.chat.domain.user.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.itstack.naive.chat.application.UserService;
 import org.itstack.naive.chat.domain.user.model.*;
 import org.itstack.naive.chat.infrastructure.po.UserFriend;
@@ -7,8 +8,11 @@ import org.itstack.naive.chat.infrastructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author hourui
@@ -17,14 +21,22 @@ import java.util.List;
  * @date 2023/1/16 23:16
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private static ExecutorService executorService = Executors.newFixedThreadPool(4);
+
     @Override
     public boolean checkAuth(String userId, String userPassword) {
         String authCode = userRepository.queryUserPassword(userId);
-        return authCode.equals(userPassword);
+        //这里的authCode可能为null，也有可能和密码不同
+        if(StringUtils.hasText(authCode)){
+            return authCode.equals(userPassword);
+        }
+        return false;
     }
 
     @Override
@@ -71,5 +83,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserFriendInfo> queryUserFriendInfoList(String userId) {
         return userRepository.queryUserFriendInfoList(userId);
+    }
+
+    @Override
+    public void aysncAppendChatRecord(ChatRecordInfo chatRecordInfo) {
+        executorService.submit(() -> {
+            try{
+                userRepository.appendChatRecordInfo(chatRecordInfo);
+            }catch (Exception e){
+                log.info("异步插入数据存在错误,{}", e.getMessage());
+            }
+        });
     }
 }

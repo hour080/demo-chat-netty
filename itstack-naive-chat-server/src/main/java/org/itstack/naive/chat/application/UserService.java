@@ -80,4 +80,13 @@ public interface UserService {
     List<UserGroupInfo> queryUserGroupInfoList(String userId);
 
     List<UserFriendInfo> queryUserFriendInfoList(String userId);
+
+    /**
+     * 异步添加聊天记录
+     * @param chatRecordInfo
+     * @author hourui
+     * @date 2023/1/26 22:28
+     * @return void
+     */
+    void aysncAppendChatRecord(ChatRecordInfo chatRecordInfo);
 }

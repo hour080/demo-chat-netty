@@ -43,12 +43,16 @@ public class AddFriendHandler extends MyBizHandler<AddFriendRequest> {
             channel.writeAndFlush(response);
             return;
         }
-        //查询好友信息, 将好友信息返回给当前用户
+        //查询好友信息, 将好友信息返回给当前用户，这样就可以在当前用户的好友列表中添加好友
         UserInfo userInfo = userService.queryUserInfo(msg.getFriendId());
         channel.writeAndFlush(new AddFriendResponse(true, userInfo.getUserId(), userInfo.getUserNickName(), userInfo.getUserHead()));
         //这里会抛出空指针异常
         Channel friendChannel = SocketChannelUtil.getChannel(msg.getFriendId());
-        //查询个人信息，将个人信息返回给好友
+        if(friendChannel == null){
+            logger.info("用户id:{}未登陆", msg.getFriendId());
+            return;
+        }
+        //查询个人信息，将个人信息返回给好友，这样好友也可以在其好友列表中添加当前用户
         userInfo = userService.queryUserInfo(msg.getUserId());
         friendChannel.writeAndFlush(new AddFriendResponse(true,userInfo.getUserId(), userInfo.getUserNickName(), userInfo.getUserHead()));
     }

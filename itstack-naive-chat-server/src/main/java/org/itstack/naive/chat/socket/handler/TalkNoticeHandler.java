@@ -57,6 +57,7 @@ public class TalkNoticeHandler extends MyBizHandler<TalkNoticeRequest> {
                     logger.info("用户id:{}未登陆!", msg.getFriendId());
                     return;
                 }
+                //让好友用户将与当前用户的对话框添加到对话框末尾
                 friendChannel.writeAndFlush(response);
                 break;
             case 1:

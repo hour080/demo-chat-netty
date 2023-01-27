@@ -19,4 +19,9 @@
         order by msgDate desc
         limit 10
     </select>
+    <insert id="appendChatRecord" parameterType="chatRecord">
+        insert into chat_record (userId, friendId, msgContent, msgType, talkType, msgDate, createTime, updateTime)
+        values
+        (#{userId}, #{friendId}, #{msgContent}, #{msgType}, #{talkType}, #{msgDate}, now(), now())
+    </insert>
 </mapper>
