@@ -145,6 +145,7 @@ public class ChatController extends ChatInit implements IChatMethod {
             getElement("info_pane_box", Pane.class).getChildren().clear();
             getElement("info_pane_box", Pane.class).setUserData(null);
             getElement("info_name", Label.class).setText("");
+            //清空对话框右侧包含的所有消息记录
             talkElement.getInfoBoxList().getItems().clear();
             talkElement.clearMsgSketch();
             chatEvent.doEventDelTalkUser(super.userId, talkId);
@@ -191,6 +192,7 @@ public class ChatController extends ChatInit implements IChatMethod {
         //设置了选中清空事件，实际效果就是我们点击整个元素，会清空最外层的列表friendList和用户列表userListView中其他的选中
         groupPane.setOnMousePressed(event -> {
             clearViewListSelectedAll(getElement("friendList", ListView.class), getElement("userListView", ListView.class));
+            //detailContent是右侧展示内容框，主要用于填充右边展现面板以及面板名称
             chatView.setContentPaneBox(detailContent, groupId, groupName);
         });
 

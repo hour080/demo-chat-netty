@@ -11,8 +11,7 @@ import org.itstack.navice.chat.ui.view.chat.data.TalkBoxData;
 import java.util.Date;
 
 /**
- * TODO
- *
+ * 对聊天框中的表情信息进行初始化，并且为聊天框中的每一个表情设置点击事件
  * @author hourui
  * @version 1.0
  * @Description

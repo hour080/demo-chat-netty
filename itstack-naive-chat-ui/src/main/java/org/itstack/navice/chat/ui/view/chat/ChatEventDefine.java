@@ -187,6 +187,7 @@ public class ChatEventDefine {
 
     public void doEventOpenFriendUserSendMsg(Button sendMsgButton, String userId, String userNickName, String userHead) {
         sendMsgButton.setOnAction(event -> {
+            //将对话框填充到对话框列表的首位
             chatMethod.addTalkBox(0, 0, userId, userNickName, userHead, null, null, true);
             // 2. 切换到对话框窗口
             switchBarChat(chatInit.getElement("bar_chat", Button.class),
