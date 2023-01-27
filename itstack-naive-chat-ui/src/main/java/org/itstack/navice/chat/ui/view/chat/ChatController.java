@@ -279,10 +279,12 @@ public class ChatController extends ChatInit implements IChatMethod {
     public void addTalkMsgGroupLeft(String talkId, String userId, String userNickName, String userHead, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
         // 自己的消息抛弃
         if (super.userId.equals(userId)) return;
+        // 从缓存中获得群组对话框
         ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
         if (null == talkElement) {
             GroupsData groupsData = (GroupsData) getElement(IdUtil.createFriendGroupId(talkId), Pane.class).getUserData();
             if (null == groupsData) return;
+            //如果缓存中不存在群组对话框，则在首位创建一个群组对话框
             addTalkBox(0, 1, talkId, groupsData.getGroupName(), groupsData.getGroupHead(), userNickName + "：" + msg, msgDate, false);
             talkElement = CacheUtil.talkMap.get(talkId);
             // 事件通知(开启与群组发送消息)
