@@ -32,5 +32,9 @@ public interface Command {
 
     Byte TalkNoticeResponse = 9;
 
+    Byte MsgRequest = 10;
+
+    Byte MsgResponse = 11;
+
 
 }
