@@ -1,6 +1,8 @@
 package org.itstack.naive.chat.client.socket.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
 import org.itstack.naive.chat.client.application.UIService;
@@ -15,14 +17,15 @@ import org.itstack.navice.chat.ui.view.chat.IChatMethod;
  * @date 2023/1/19 22:46
  */
 @Slf4j
-public class AddFriendHandler extends MyBizHandler<AddFriendResponse> {
+public class AddFriendHandler extends SimpleChannelInboundHandler<AddFriendResponse> {
     private UIService uiService;
 
     public AddFriendHandler(UIService uiService){
         this.uiService = uiService;
     }
+    
     @Override
-    public void channelRead(Channel channel, AddFriendResponse msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, AddFriendResponse msg) throws Exception {
         IChatMethod chat = uiService.getChat();
         if(!msg.isSuccess()){
             System.out.println("添加好友失败");

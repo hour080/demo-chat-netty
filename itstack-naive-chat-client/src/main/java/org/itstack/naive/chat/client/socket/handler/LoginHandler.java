@@ -20,6 +20,7 @@ import java.util.List;
  * 在 JavaFx 中，如果在非Fx线程要执行Fx线程相关的任务，必须在 Platform.runlater 中执行，
  * 这个方法在JavaFX Application线程空闲时运行。
  * runLater本质上将您的Runnable放在队列中，当FX线程可用时，会从队列中取出任务来执行。
+ * 只要有一个处理器继承MyBizHandler即可，应对连接断开，出现异常时出现的问题
  * @author hourui
  * @version 1.0
  * @Description

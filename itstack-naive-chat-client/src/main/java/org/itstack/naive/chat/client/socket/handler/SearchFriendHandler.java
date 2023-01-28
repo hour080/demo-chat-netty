@@ -22,14 +22,15 @@ import java.util.List;
  * @date 2023/1/19 22:30
  */
 @Slf4j
-public class SearchFriendHandler extends MyBizHandler<SearchFriendResponse> {
+public class SearchFriendHandler extends SimpleChannelInboundHandler<SearchFriendResponse> {
     private UIService uiService;
 
     public SearchFriendHandler(UIService uiService){
         this.uiService = uiService;
     }
+
     @Override
-    public void channelRead(Channel channel, SearchFriendResponse msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, SearchFriendResponse msg) throws Exception {
         List<UserDto> luckFriends = msg.getFriends();
         if (luckFriends == null || luckFriends.size() == 0) return;
         IChatMethod chat = uiService.getChat();

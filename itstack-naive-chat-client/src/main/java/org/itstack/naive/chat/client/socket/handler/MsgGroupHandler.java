@@ -1,6 +1,8 @@
 package org.itstack.naive.chat.client.socket.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import javafx.application.Platform;
 import org.itstack.naive.chat.client.application.UIService;
 import org.itstack.naive.chat.client.socket.MyBizHandler;
@@ -15,7 +17,7 @@ import org.itstack.navice.chat.ui.view.chat.IChatMethod;
  * @Description
  * @date 2023/1/27 20:54
  */
-public class MsgGroupHandler extends MyBizHandler<MsgGroupResponse> {
+public class MsgGroupHandler extends SimpleChannelInboundHandler<MsgGroupResponse> {
     private UIService uiService;
 
     public MsgGroupHandler(UIService uiService) {
@@ -23,7 +25,7 @@ public class MsgGroupHandler extends MyBizHandler<MsgGroupResponse> {
     }
 
     @Override
-    public void channelRead(Channel channel, MsgGroupResponse msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, MsgGroupResponse msg) throws Exception {
         IChatMethod chat = uiService.getChat();
         Platform.runLater(() -> {
             //通过talkId获得群组对话框，然后在群组对话框中添加消息记录

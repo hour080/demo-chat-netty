@@ -1,6 +1,8 @@
 package org.itstack.naive.chat.client.socket.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import javafx.application.Platform;
 import org.itstack.naive.chat.client.application.UIService;
 import org.itstack.naive.chat.client.socket.MyBizHandler;
@@ -14,7 +16,7 @@ import org.itstack.navice.chat.ui.view.chat.IChatMethod;
  * @Description
  * @date 2023/1/24 12:48
  */
-public class TalkNoticeHandler extends MyBizHandler<TalkNoticeResponse> {
+public class TalkNoticeHandler extends SimpleChannelInboundHandler<TalkNoticeResponse> {
     private UIService uiService;
 
     public TalkNoticeHandler(UIService uiService) {
@@ -22,7 +24,7 @@ public class TalkNoticeHandler extends MyBizHandler<TalkNoticeResponse> {
     }
 
     @Override
-    public void channelRead(Channel channel, TalkNoticeResponse msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, TalkNoticeResponse msg) throws Exception {
         IChatMethod chat = uiService.getChat();
         Platform.runLater(() -> {
             //在好友界面点击发送消息按钮以后，当前用户创建对话框
