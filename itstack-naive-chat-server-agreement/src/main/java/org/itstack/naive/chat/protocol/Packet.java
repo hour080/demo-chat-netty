@@ -6,6 +6,7 @@ import org.itstack.naive.chat.protocol.friend.SearchFriendRequest;
 import org.itstack.naive.chat.protocol.friend.SearchFriendResponse;
 import org.itstack.naive.chat.protocol.login.LoginRequest;
 import org.itstack.naive.chat.protocol.login.LoginResponse;
+import org.itstack.naive.chat.protocol.login.ReconnectRequest;
 import org.itstack.naive.chat.protocol.msg.MsgGroupRequest;
 import org.itstack.naive.chat.protocol.msg.MsgGroupResponse;
 import org.itstack.naive.chat.protocol.msg.MsgRequest;
@@ -40,6 +41,7 @@ public abstract class Packet {
         packetType.put(Command.MsgResponse, MsgResponse.class);
         packetType.put(Command.MsgGroupRequest, MsgGroupRequest.class);
         packetType.put(Command.MsgGroupResponse, MsgGroupResponse.class);
+        packetType.put(Command.ReconnectRequest, ReconnectRequest.class);
     }
     public static Class<? extends Packet> get(Byte command){
         return packetType.get(command);

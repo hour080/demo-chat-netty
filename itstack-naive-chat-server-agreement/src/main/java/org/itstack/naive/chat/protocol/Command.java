@@ -40,5 +40,7 @@ public interface Command {
 
     Byte MsgGroupResponse = 13;
 
+    Byte ReconnectRequest = 14;
+
 
 }
