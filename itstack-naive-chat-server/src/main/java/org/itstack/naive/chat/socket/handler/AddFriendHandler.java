@@ -1,6 +1,9 @@
 package org.itstack.naive.chat.socket.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -22,15 +25,18 @@ import java.util.List;
  * @Description
  * @date 2023/1/19 22:54
  */
-public class AddFriendHandler extends MyBizHandler<AddFriendRequest> {
+@Slf4j
+public class AddFriendHandler extends SimpleChannelInboundHandler<AddFriendRequest> {
+
+    private UserService userService;
 
     public AddFriendHandler(UserService userService) {
-        super(userService);
+        this.userService = userService;
     }
 
     @Override
-    protected void channelRead(Channel channel, AddFriendRequest msg) {
-        //添加好友到数据库中
+    protected void channelRead0(ChannelHandlerContext ctx, AddFriendRequest msg) throws Exception {
+//添加好友到数据库中
         List<UserFriend> userFriendList = new ArrayList<>();
         //单纯的一个双向绑定，也就是你添加别人为好友，别人也添加你为好友
         userFriendList.add(new UserFriend(msg.getUserId(), msg.getFriendId()));
@@ -40,21 +46,20 @@ public class AddFriendHandler extends MyBizHandler<AddFriendRequest> {
         }catch (Exception e){
             AddFriendResponse response = new AddFriendResponse();
             response.setSuccess(false);
-            channel.writeAndFlush(response);
+            ctx.channel().writeAndFlush(response);
             return;
         }
         //查询好友信息, 将好友信息返回给当前用户，这样就可以在当前用户的好友列表中添加好友
         UserInfo userInfo = userService.queryUserInfo(msg.getFriendId());
-        channel.writeAndFlush(new AddFriendResponse(true, userInfo.getUserId(), userInfo.getUserNickName(), userInfo.getUserHead()));
+        ctx.channel().writeAndFlush(new AddFriendResponse(true, userInfo.getUserId(), userInfo.getUserNickName(), userInfo.getUserHead()));
         //这里会抛出空指针异常
         Channel friendChannel = SocketChannelUtil.getChannel(msg.getFriendId());
         if(friendChannel == null){
-            logger.info("用户id:{}未登陆", msg.getFriendId());
+            log.info("用户id:{}未登陆", msg.getFriendId());
             return;
         }
         //查询个人信息，将个人信息返回给好友，这样好友也可以在其好友列表中添加当前用户
         userInfo = userService.queryUserInfo(msg.getUserId());
         friendChannel.writeAndFlush(new AddFriendResponse(true,userInfo.getUserId(), userInfo.getUserNickName(), userInfo.getUserHead()));
     }
-
 }

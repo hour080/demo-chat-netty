@@ -1,6 +1,8 @@
 package org.itstack.naive.chat.socket.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
 import org.itstack.naive.chat.application.UserService;
 import org.itstack.naive.chat.domain.user.model.ChatRecordInfo;
@@ -19,19 +21,21 @@ import org.itstack.naive.chat.socket.MyBizHandler;
  * @Description
  * @date 2023/1/27 11:05
  */
-public class MsgGroupHandler extends MyBizHandler<MsgGroupRequest> {
+public class MsgGroupHandler extends SimpleChannelInboundHandler<MsgGroupRequest> {
+
+    private UserService userService;
 
     public MsgGroupHandler(UserService userService) {
-        super(userService);
+        this.userService = userService;
     }
 
     @Override
-    protected void channelRead(Channel channel, MsgGroupRequest msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, MsgGroupRequest msg) throws Exception {
         //获得群组的通信管道
         ChannelGroup channelGroup = SocketChannelUtil.getChannelGroup(msg.getTalkId());
         if(channelGroup == null){
             //这里会存在线程安全问题，也就是多个客户端同时往服务端中添加群组通信管道
-            SocketChannelUtil.addChannelGroup(msg.getTalkId(), channel); //群组的通道也就是群组中某个用户与服务端建立的SocketChannel
+            SocketChannelUtil.addChannelGroup(msg.getTalkId(), ctx.channel()); //群组的通道也就是群组中某个用户与服务端建立的SocketChannel
             channelGroup = SocketChannelUtil.getChannelGroup(msg.getTalkId());
         }
         //异步写入聊天记录

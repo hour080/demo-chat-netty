@@ -1,6 +1,8 @@
 package org.itstack.naive.chat.socket.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import org.itstack.naive.chat.application.UserService;
 import org.itstack.naive.chat.protocol.talk.DelTalkRequest;
 import org.itstack.naive.chat.socket.MyBizHandler;
@@ -12,13 +14,15 @@ import org.itstack.naive.chat.socket.MyBizHandler;
  * @Description
  * @date 2023/1/24 12:41
  */
-public class DelTalkHandler extends MyBizHandler<DelTalkRequest> {
+public class DelTalkHandler extends SimpleChannelInboundHandler<DelTalkRequest> {
+    private UserService userService;
+
     public DelTalkHandler(UserService userService) {
-        super(userService);
+        this.userService = userService;
     }
 
     @Override
-    protected void channelRead(Channel channel, DelTalkRequest msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, DelTalkRequest msg) throws Exception {
         userService.deleteTalkBox(msg.getUserId(), msg.getTalkId());
     }
 }

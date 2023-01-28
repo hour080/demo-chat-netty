@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.itstack.naive.chat.application.UserService;
+import org.itstack.naive.chat.infrastructure.common.SocketChannelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +41,17 @@ public abstract class MyBizHandler<T> extends SimpleChannelInboundHandler<T> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
+        //根据channelId获得userId，然后移除channel
+        SocketChannelUtil.removeChannelByChannelId(ctx.channel().id().toString());
+        //然后遍历每一个群组，删除其中的用户channel
+        SocketChannelUtil.removeChannelGroupByChannel(ctx.channel());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.error("服务端异常断开,异常类型为{},异常消息为{}", cause.getClass(),cause.getMessage());
+        SocketChannelUtil.removeChannelByChannelId(ctx.channel().id().toString());
+        SocketChannelUtil.removeChannelGroupByChannel(ctx.channel());
     }
 
 }

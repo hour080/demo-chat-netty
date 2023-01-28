@@ -2,6 +2,9 @@ package org.itstack.naive.chat.socket.handler;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.itstack.naive.chat.application.UserService;
 import org.itstack.naive.chat.domain.user.model.ChatRecordInfo;
 import org.itstack.naive.chat.infrastructure.common.Constants;
@@ -18,15 +21,18 @@ import org.itstack.naive.chat.socket.MyBizHandler;
  * @Description
  * @date 2023/1/26 22:08
  */
-public class MsgHandler extends MyBizHandler<MsgRequest> {
+@Slf4j
+public class MsgHandler extends SimpleChannelInboundHandler<MsgRequest> {
+
+    private UserService userService;
 
     public MsgHandler(UserService userService) {
-        super(userService);
+       this.userService = userService;
     }
 
     @Override
-    protected void channelRead(Channel channel, MsgRequest msg) {
-        logger.info("消息信息处理：{}", JSON.toJSONString(msg));
+    protected void channelRead0(ChannelHandlerContext ctx, MsgRequest msg) throws Exception {
+        log.info("消息信息处理：{}", JSON.toJSONString(msg));
         //1、将聊天记录异步写入到数据库中
         userService.aysncAppendChatRecord(new ChatRecordInfo(msg.getUserId(),
                 msg.getFriendId(), msg.getMsgText(),
@@ -36,7 +42,7 @@ public class MsgHandler extends MyBizHandler<MsgRequest> {
         //获取好友通信管道
         Channel friendChannel = SocketChannelUtil.getChannel(msg.getFriendId());
         if (null == friendChannel) {
-            logger.info("用户id：{}未登录！", msg.getFriendId());
+            log.info("用户id：{}未登录！", msg.getFriendId());
             return;
         }
         //向好友发送具体的消息信息，让好友填充对应的消息
