@@ -6,6 +6,8 @@ import org.itstack.naive.chat.domain.user.model.*;
 import org.itstack.naive.chat.infrastructure.po.UserFriend;
 import org.itstack.naive.chat.infrastructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -26,6 +28,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    @Qualifier(value = "taskExecutor")
+    private ThreadPoolTaskExecutor taskExecutor;
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(4);
 
@@ -87,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void aysncAppendChatRecord(ChatRecordInfo chatRecordInfo) {
-        executorService.submit(() -> {
+        taskExecutor.submit(() -> {
             try{
                 userRepository.appendChatRecordInfo(chatRecordInfo);
             }catch (Exception e){

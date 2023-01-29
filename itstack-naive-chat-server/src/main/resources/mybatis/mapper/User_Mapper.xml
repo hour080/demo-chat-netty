@@ -13,4 +13,30 @@
         select userId, userNickName, userHead from user
         where userId != #{userId} and (userId like CONCAT('%',#{searchKey},'%') or userNickName like CONCAT('%',#{searchKey},'%'))
     </select>
+    <select id="queryChannelUserCount" parameterType="org.itstack.naive.chat.domain.inet.model.ChannelUserReq" resultType="long">
+        select count(*) from user
+        <where>
+            <if test="userId != null">
+                and userId = #{userId}
+            </if>
+            <if test="userNickName != null">
+                and userNickName like concat('%', #{userNickName}, '#')
+            </if>
+        </where>
+    </select>
+    <select id="queryChannelUserList" parameterType="org.itstack.naive.chat.domain.inet.model.ChannelUserReq" resultType="user">
+        select userId, userNickName, userHead
+        from user
+        <where>
+            <!--这里userId是实体的属性, 并不是数据库中的字段-->
+            <if test="userId != null">
+                and userId = #{userId}
+            </if>
+            <if test="userNickName != null">
+                and userNickName like concat('%', #{userNickName}, '%')
+            </if>
+        </where>
+        order by id desc
+        limit #{pageStart},#{pageSize}
+    </select>
 </mapper>

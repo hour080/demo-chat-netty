@@ -4,6 +4,14 @@ spring:
     password: 1021
     url: jdbc:mysql://localhost:3306/itstack?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
+  ## 设定静态资源的访问路径，和pom文件中resources标签下的targetPath标签相关，访问静态资源时会去寻找static-locations下对应的静态资源文件
+  web:
+    resources:
+      static-locations: classpath:/wechat/
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
 mybatis:
 #  config-location: classpath:/mybatis/config/mybatis-config.xml #mybatis的全局配置路径
   mapper-locations: classpath:/mybatis/mapper/*.xml #mybatis映射文件的位置
@@ -11,3 +19,8 @@ mybatis:
 logging:
   level:
     org.itstack.naive.chat.infrastructure.dao: debug
+server:
+  port: 8081
+netty:
+  ip: 127.0.0.1
+  port: 7397

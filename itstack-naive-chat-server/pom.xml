@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.6.4</version>
+            <version>2.6.3</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -51,6 +51,43 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.83</version>
         </dependency>
+        <!-- 添加servlet依赖模块 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+            <version>4.0.0</version>
+        </dependency>
+        <!-- 添加jstl标签库依赖模块 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- 使用jsp引擎，springboot内置tomcat没有此依赖 -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>9.0.69</version>
+        </dependency>
     </dependencies>
+    <build>
+        <!-- 添加访问静态资源文件 -->
+        <!-- 代码的作用是让src/main/webapp在编译的时候在resources路径下也生成webapp的文件 -->
+        <resources>
+            <resource>
+                <!--<directory>标签指定了要读取到target/classes的资源目录-->
+                <directory>src/main/webapp</directory>
+                <targetPath>wechat</targetPath>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 
 </project>

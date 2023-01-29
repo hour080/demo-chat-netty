@@ -15,26 +15,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-/**
- * 微信公众号：bugstack虫洞栈 | 欢迎关注学习专题案例
- * 论坛：http://bugstack.cn
- * Create by 小傅哥 on @2019
- */
 @SpringBootApplication
 @MapperScan("org.itstack.naive.chat.infrastructure.dao")
 @Slf4j
-public class Application implements InitializingBean {
+public class Application extends SpringBootServletInitializer implements InitializingBean {
     @Autowired
     private NettyServer nettyServer;
 
     //指定springboot项目在外部容器的应用主启动类Application
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//        return builder.sources(Application.class);
-//    }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(Application.class);
+    }
 
     public static void main(String[] args){
         SpringApplication.run(Application.class, args);
@@ -46,6 +43,7 @@ public class Application implements InitializingBean {
         Future<Channel> future = Executors.newFixedThreadPool(2).submit(nettyServer);
         Channel channel = future.get(); //当前线程会阻塞得到NioServerSocketChannel, 监听客户端的连接
         if (null == channel) throw new RuntimeException("netty server start error channel is null");
+        log.info("服务端channel的类型是:{}", channel.getClass());
         //如果channel断开
         while (!channel.isActive()) {
             log.info("NettyServer启动服务 ...");

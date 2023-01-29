@@ -7,6 +7,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.itstack.naive.chat.application.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.InetSocketAddress;
@@ -28,6 +29,9 @@ public class NettyServer implements Callable<Channel> {
 
     @Autowired
     private UserService userService;
+
+    @Value("${netty.port}")
+    private int port;
     private final EventLoopGroup parent = new NioEventLoopGroup();
     private final EventLoopGroup worker = new NioEventLoopGroup();
 
@@ -42,7 +46,7 @@ public class NettyServer implements Callable<Channel> {
                     .channel(NioServerSocketChannel.class) //将serverSocketChannel设置为非阻塞模式
                     .option(ChannelOption.SO_BACKLOG, 128) //设置全连接队列的大小
                     .childHandler(new MyChannelInitializer(userService));
-            channelFuture = serverBootstrap.bind(new InetSocketAddress(7397)).syncUninterruptibly();
+            channelFuture = serverBootstrap.bind(new InetSocketAddress(port)).syncUninterruptibly();
             channel = channelFuture.channel();//NioServerSocketChannel
         } catch (Exception e) {
             log.error("socket server start error", e.getMessage());
