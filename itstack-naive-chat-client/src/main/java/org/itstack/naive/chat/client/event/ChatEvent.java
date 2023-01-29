@@ -11,6 +11,8 @@ import org.itstack.naive.chat.protocol.msg.MsgRequest;
 import org.itstack.naive.chat.protocol.talk.DelTalkRequest;
 import org.itstack.naive.chat.protocol.talk.TalkNoticeRequest;
 import org.itstack.navice.chat.ui.view.chat.IChatEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
@@ -18,9 +20,12 @@ import java.util.Date;
  */
 public class ChatEvent implements IChatEvent {
 
+    private Logger logger = LoggerFactory.getLogger(ChatEvent.class);
+
     @Override
     public void doQuit() {
-
+        logger.info("退出登陆！");
+        BeanUtil.getBean("channel", Channel.class).close();
     }
 
     @Override
